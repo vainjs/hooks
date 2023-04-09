@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "declaration": true,
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "noImplicitThis": false,
+    "paths": {
+      "@/*": [
+        "packages/*"
+      ],
+    }
+  }
+}
