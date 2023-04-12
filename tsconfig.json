@@ -5,6 +5,7 @@
     "skipLibCheck": true,
     "baseUrl": "./",
     "noImplicitThis": false,
+    "esModuleInterop": true,
     "paths": {
       "@/*": [
         "packages/*"

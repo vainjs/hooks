@@ -1,5 +1,5 @@
 export interface DebounceOptions {
-  immediate: boolean
+  immediate?: boolean
   wait?: number
 }
 

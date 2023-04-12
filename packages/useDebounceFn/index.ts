@@ -1,5 +1,5 @@
-import { debounce, DebounceOptions } from '@/utils/debounce'
 import { useMemo, useRef } from 'react'
+import { debounce, DebounceOptions } from '../utils/debounce'
 
 function useDebounceFn(fn: Function, options?: DebounceOptions) {
   const fnRef = useRef(fn)
