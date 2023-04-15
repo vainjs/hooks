@@ -3,3 +3,7 @@ export function sleep(duration = 0) {
     setTimeout(resolve, duration)
   })
 }
+
+export function isNumber(num: unknown) {
+  return typeof num === 'number'
+}

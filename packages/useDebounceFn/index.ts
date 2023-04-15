@@ -1,11 +1,14 @@
 import { useMemo, useRef } from 'react'
-import { debounce, DebounceOptions } from '../utils/debounce'
+import { debounce, Noop, DebounceOptions } from '../utils/debounce'
 
-function useDebounceFn(fn: Function, options?: DebounceOptions) {
+function useDebounceFn(fn: Noop, options?: DebounceOptions) {
+  const optionsRef = useRef(options)
   const fnRef = useRef(fn)
-  const wait = options?.wait ?? 300
 
-  const debounceFn = useMemo(() => debounce(fnRef.current, wait, options?.immediate), [])
+  const debounceFn = useMemo(
+    () => debounce(fnRef.current, optionsRef.current),
+    []
+  )
 
   return { debounceFn }
 }

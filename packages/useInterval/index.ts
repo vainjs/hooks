@@ -1,11 +1,17 @@
 import { useEffect, useRef, useCallback } from 'react'
+import { isNumber } from '../utils'
 
 interface IntervalOptions {
   immediate?: boolean
 }
 
-function useInterval(fn: Function, timeout = 0, options: IntervalOptions = {}) {
+function useInterval(
+  fn: () => void,
+  timeout = 0,
+  options: IntervalOptions = {}
+) {
   const timerRef = useRef<number | null>(null)
+  const optionsRef = useRef(options)
   const fnRef = useRef(fn)
 
   const clear = useCallback(() => {
@@ -16,12 +22,15 @@ function useInterval(fn: Function, timeout = 0, options: IntervalOptions = {}) {
   }, [])
 
   useEffect(() => {
-    if (options.immediate) {
+    if (!isNumber(timeout) || timeout < 0) {
+      throw new TypeError('timeout must be a number greater than 0')
+    }
+    if (optionsRef.current.immediate) {
       fnRef.current()
     }
     timerRef.current = window.setInterval(fnRef.current, timeout)
     return clear
-  }, [])
+  }, [clear, timeout])
 
   return clear
 }
