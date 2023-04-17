@@ -2,12 +2,12 @@ import { useEffect, useRef, useCallback } from 'react'
 import { isNumber } from '../utils'
 
 function useTimeout(fn: () => void, timeout = 0) {
-  const timerRef = useRef<number | null>(null)
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
   const fnRef = useRef(fn)
 
   const clear = useCallback(() => {
     if (timerRef.current) {
-      window.clearTimeout(timerRef.current)
+      clearTimeout(timerRef.current)
       timerRef.current = null
     }
   }, [])
@@ -16,7 +16,7 @@ function useTimeout(fn: () => void, timeout = 0) {
     if (!isNumber(timeout) || timeout < 0) {
       throw new TypeError('timeout must be a number greater than 0')
     }
-    timerRef.current = window.setTimeout(fnRef.current, timeout)
+    timerRef.current = setTimeout(fnRef.current, timeout)
     return clear
   }, [clear, timeout])
 

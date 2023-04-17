@@ -10,13 +10,13 @@ function useInterval(
   timeout = 0,
   options: IntervalOptions = {}
 ) {
-  const timerRef = useRef<number | null>(null)
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
   const optionsRef = useRef(options)
   const fnRef = useRef(fn)
 
   const clear = useCallback(() => {
     if (timerRef.current) {
-      window.clearInterval(timerRef.current)
+      clearInterval(timerRef.current)
       timerRef.current = null
     }
   }, [])
@@ -28,7 +28,7 @@ function useInterval(
     if (optionsRef.current.immediate) {
       fnRef.current()
     }
-    timerRef.current = window.setInterval(fnRef.current, timeout)
+    timerRef.current = setInterval(fnRef.current, timeout)
     return clear
   }, [clear, timeout])
 
