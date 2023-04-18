@@ -1,11 +1,11 @@
 import { act, renderHook } from '@testing-library/react'
 import { sleep } from '../../utils'
-import useDebounce from '../index'
+import useThrottle from '../index'
 
-describe('useDebounce', () => {
+describe('useThrottle', () => {
   it('useDebounce should work', async () => {
     const { result, rerender } = renderHook(
-      ({ state }) => useDebounce(state, { wait: 300 }),
+      ({ state }) => useThrottle(state, { wait: 300 }),
       {
         initialProps: { state: 0 },
       }
@@ -17,13 +17,9 @@ describe('useDebounce', () => {
     expect(result.current).toBe(0)
 
     rerender({ state: 2 })
-    await sleep(299)
-    expect(result.current).toBe(0)
-
-    rerender({ state: 3 })
     await act(async () => {
-      await sleep(301)
+      await sleep(201)
     })
-    expect(result.current).toBe(3)
+    expect(result.current).toBe(2)
   })
 })
