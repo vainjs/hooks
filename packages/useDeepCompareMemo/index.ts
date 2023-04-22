@@ -1,3 +1,9 @@
-// function useDeepCompareMemo() {}
+import { useMemo, DependencyList } from 'react'
+import useDeepCompareMemoize from '../useDeepCompareMemoize'
 
-// export default useDeepCompareMemo
+function useDeepCompareMemo<T>(fn: () => T, deps: DependencyList) {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  return useMemo(fn, useDeepCompareMemoize(deps))
+}
+
+export default useDeepCompareMemo
