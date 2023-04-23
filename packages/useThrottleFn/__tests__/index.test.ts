@@ -4,29 +4,29 @@ import useThrottleFn from '../index'
 
 describe('useThrottleFn', () => {
   it('useThrottleFn should work', async () => {
-    const callback = jest.fn()
-    const hook = renderHook(() => useThrottleFn(callback, { wait: 300 }))
+    const fn = jest.fn()
+    const hook = renderHook(() => useThrottleFn(fn, { wait: 300 }))
 
     hook.result.current.throttleFn()
-    expect(callback).toHaveBeenCalledTimes(1)
+    expect(fn).toHaveBeenCalledTimes(1)
 
     hook.result.current.throttleFn()
     await sleep(100)
-    expect(callback).toHaveBeenCalledTimes(1)
+    expect(fn).toHaveBeenCalledTimes(1)
 
     hook.result.current.throttleFn()
     await sleep(190)
-    expect(callback).toHaveBeenCalledTimes(1)
+    expect(fn).toHaveBeenCalledTimes(1)
 
     hook.result.current.throttleFn()
     await sleep(10)
-    expect(callback).toHaveBeenCalledTimes(2)
+    expect(fn).toHaveBeenCalledTimes(2)
 
     hook.result.current.throttleFn()
-    expect(callback).toHaveBeenCalledTimes(2)
+    expect(fn).toHaveBeenCalledTimes(2)
 
     hook.result.current.throttleFn()
     await sleep(301)
-    expect(callback).toHaveBeenCalledTimes(3)
+    expect(fn).toHaveBeenCalledTimes(3)
   })
 })
