@@ -4,9 +4,10 @@
   "description": "a hooks",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
+  "type": "module",
   "scripts": {
     "dev": "father dev",
-    "build": "father build",
+    "build": "rollup -c",
     "build:deps": "father prebundle",
     "prepublishOnly": "father doctor && npm run build",
     "test": "jest",
@@ -27,12 +28,14 @@
   "devDependencies": {
     "@commitlint/cli": "^17.6.0",
     "@commitlint/config-conventional": "^17.6.0",
+    "@rollup/plugin-typescript": "^11.1.0",
     "@testing-library/react": "^14.0.0",
     "@types/jest": "^29.5.0",
     "@types/node": "^18.15.11",
     "@types/react": "^18.0.33",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
+    "ahooks": "^3.7.6",
     "eslint": "^8.38.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.8.0",
@@ -45,6 +48,7 @@
     "jest-environment-jsdom": "^29.5.0",
     "lint-staged": "^13.2.1",
     "react": "^18.2.0",
+    "rollup": "^3.21.0",
     "ts-jest": "^29.1.0",
     "typescript": "^5.0.4"
   },
@@ -60,5 +64,8 @@
     "*.{ts,tsx,js}": [
       "eslint --fix"
     ]
+  },
+  "dependencies": {
+    "tslib": "^2.5.0"
   }
 }
