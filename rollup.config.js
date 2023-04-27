@@ -1,4 +1,5 @@
 import typescript from '@rollup/plugin-typescript'
+import clear from 'rollup-plugin-clear'
 
 export default {
   input: 'packages/index.ts',
@@ -12,5 +13,10 @@ export default {
       format: 'es',
     },
   ],
-  plugins: [typescript()],
+  plugins: [
+    clear({
+      targets: ['dist'],
+    }),
+    typescript(),
+  ],
 }
