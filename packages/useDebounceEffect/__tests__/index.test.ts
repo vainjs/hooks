@@ -44,7 +44,7 @@ describe('useDebounceEffect', () => {
     expect(fn).toHaveBeenCalledTimes(3)
   })
 
-  it('useDebounceFn should work with immediate', async () => {
+  it('useDebounceEffect should work with immediate', async () => {
     const fn = jest.fn()
     const hook = renderHook(() => {
       const [value, setValue] = useState({})
@@ -70,5 +70,39 @@ describe('useDebounceEffect', () => {
     })
     await sleep(110)
     expect(fn).toHaveBeenCalledTimes(4)
+  })
+
+  it('useDebounceEffect should work with deepCompare', async () => {
+    const fn = jest.fn()
+    const hook = renderHook(() => {
+      const [value, setValue] = useState({})
+      useDebounceEffect(fn, [value], { deepCompare: true, wait: 100 })
+      return { setValue }
+    })
+    expect(fn).toHaveBeenCalledTimes(0)
+
+    await act(async () => {
+      hook.result.current.setValue({})
+    })
+    await sleep(110)
+    expect(fn).toHaveBeenCalledTimes(1)
+
+    await act(async () => {
+      hook.result.current.setValue({ a: 1, b: 2 })
+    })
+    await sleep(110)
+    expect(fn).toHaveBeenCalledTimes(2)
+
+    await act(async () => {
+      hook.result.current.setValue({ b: 2, a: 1 })
+    })
+    await sleep(110)
+    expect(fn).toHaveBeenCalledTimes(2)
+
+    await act(async () => {
+      hook.result.current.setValue({ a: 1 })
+    })
+    await sleep(110)
+    expect(fn).toHaveBeenCalledTimes(3)
   })
 })
