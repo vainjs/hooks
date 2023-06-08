@@ -25,6 +25,5 @@ export const createUpdateEffct =
       } else {
         isMounted.current = true
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, deps)
   }
