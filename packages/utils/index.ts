@@ -11,3 +11,7 @@ export function isNumber(num: unknown) {
 export function getType(target: unknown) {
   return Object.prototype.toString.call(target)
 }
+
+export function isNil(value: unknown) {
+  return value === undefined || value === null
+}

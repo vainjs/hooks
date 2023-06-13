@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import deepEqual from '../utils/deepEqual'
 
-function useDeepCompareMemoize<T>(value: T) {
+function useDeepCompareRef<T>(value: T) {
   const valueRef = useRef<T>()
 
   if (!deepEqual(value, valueRef.current)) {
@@ -11,4 +11,4 @@ function useDeepCompareMemoize<T>(value: T) {
   return valueRef.current
 }
 
-export default useDeepCompareMemoize
+export default useDeepCompareRef

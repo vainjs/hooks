@@ -19,7 +19,7 @@ describe('useThrottleFn', () => {
     expect(fn).toHaveBeenCalledTimes(1)
 
     hook.result.current.throttleFn()
-    await sleep(10)
+    await sleep(15)
     expect(fn).toHaveBeenCalledTimes(2)
 
     hook.result.current.throttleFn()

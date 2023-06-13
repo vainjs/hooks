@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import type { ThrottleOptions } from '../utils/debounce'
+import type { ThrottleOptions } from '../utils/throttle'
 import useThrottleFn from '../useThrottleFn'
 
 function useThrottle<T>(value: T, options?: ThrottleOptions) {

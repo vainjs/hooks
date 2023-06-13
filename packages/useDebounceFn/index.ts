@@ -1,5 +1,6 @@
 import { useMemo, useRef } from 'react'
-import { debounce, Noop, DebounceOptions } from '../utils/debounce'
+import { debounce, DebounceOptions } from '../utils/debounce'
+import type { Noop } from '../utils/type'
 
 function useDebounceFn(fn: Noop, options?: DebounceOptions) {
   const optionsRef = useRef({ wait: 300, ...options })

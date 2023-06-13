@@ -1,5 +1,5 @@
 import { useEffect, EffectCallback, DependencyList } from 'react'
-import useDeepCompareMemoize from '../useDeepCompareMemoize'
+import useDeepCompareRef from '../useDeepCompareRef'
 import type { DebounceOptions } from '../utils/debounce'
 import useDebounceFn from '../useDebounceFn'
 
@@ -14,7 +14,7 @@ function useDebounceEffect(
 ) {
   const { deepCompare, ...debounceOptions } = options
   const { debounceFn } = useDebounceFn(fn, debounceOptions)
-  const deepCompareDeps = useDeepCompareMemoize(deps)
+  const deepCompareDeps = useDeepCompareRef(deps)
 
   useEffect(
     () => {

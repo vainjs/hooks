@@ -1,5 +1,6 @@
 import { useMemo, useRef } from 'react'
-import { throttle, Noop, ThrottleOptions } from '../utils/debounce'
+import { throttle, ThrottleOptions } from '../utils/throttle'
+import type { Noop } from '../utils/type'
 
 function useThrottleFn(fn: Noop, options?: ThrottleOptions) {
   const optionsRef = useRef({ wait: 300, ...options })
