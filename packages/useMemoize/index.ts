@@ -8,7 +8,7 @@ function useMemoize<T>(value: T) {
     valueRef.current = value
   }
 
-  return valueRef.current
+  return valueRef.current as T
 }
 
 export default useMemoize
