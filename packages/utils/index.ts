@@ -30,3 +30,10 @@ export function isFunction(value: unknown): value is Function {
 export function isNil(value: unknown) {
   return value === undefined || value === null
 }
+
+export function snakeCase(str: string) {
+  return str
+    .replace(/['\u2019]/g, '')
+    .replace(/([A-Z]+)/g, (m, p) => `_${p.toLowerCase()}`)
+    .replace(/ +/g, '_')
+}

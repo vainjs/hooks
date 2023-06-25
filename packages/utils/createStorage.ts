@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
+import { getType, isFunction, isNil, snakeCase } from './index'
 import useMemoize from '../useMemoize'
-import { getType, isFunction } from './index'
 
 export interface Serializer<T> {
   get(raw: string): T
@@ -9,8 +9,11 @@ export interface Serializer<T> {
 
 export interface Options<T> {
   serializer?: Serializer<T>
+  prefix?: string
   onError?: (error: unknown) => void
 }
+
+export type StateUpdater<T> = (previousState?: T) => T
 
 type SerializerType =
   | 'boolean'
@@ -23,6 +26,7 @@ type SerializerType =
 
 const defaultError = (e: unknown) => console.error(e)
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const serializers: Record<SerializerType, Serializer<any>> = {
   boolean: {
     get: (v: string) => JSON.parse(v),
@@ -57,36 +61,41 @@ export const serializers: Record<SerializerType, Serializer<any>> = {
 export const createStorage =
   (storage: Storage) =>
   <T>(key: string, value?: T | (() => T), options: Options<T> = {}) => {
-    const initValue = isFunction(value) ? value() : value
+    const initValue = useMemoize(isFunction(value) ? value() : value)
     const type = getType(initValue)
     const serializer = options.serializer ?? serializers[type]
     const onError = options.onError ?? defaultError
+    const realKey = useMemoize(
+      snakeCase(`${options.prefix ?? 'ikanjs_'}${key}`)
+    )
 
     const getValue = useCallback(() => {
       try {
-        const raw = storage.getItem(key)
+        const raw = storage.getItem(realKey)
         if (raw) return serializer.get(raw)
       } catch (e) {
         onError(e)
       }
       return initValue
-    }, [onError, serializer, initValue, key])
+    }, [onError, serializer, initValue, realKey])
 
     const [state, setState] = useState<T>(() => getValue())
 
-    const updateValue = useCallback(
-      (val: T) => {
-        try {
-          const newRaw = serializer.set(val ?? initValue)
-          if (storage.getItem(key) === newRaw) return
-          storage.setItem(key, newRaw)
-          setState(val)
-        } catch (e) {
-          onError(e)
+    const updateValue = useMemoize((val: T | StateUpdater<T>) => {
+      const newVal = isFunction(val) ? val(state) : val
+      try {
+        if (isNil(newVal)) {
+          storage.removeItem(realKey)
+        } else {
+          const newRaw = serializer.set(newVal)
+          if (storage.getItem(realKey) === newRaw) return
+          storage.setItem(realKey, newRaw)
         }
-      },
-      [onError, serializer, initValue, key]
-    )
+        setState(newVal)
+      } catch (e) {
+        onError(e)
+      }
+    })
 
     return [state, updateValue]
   }
