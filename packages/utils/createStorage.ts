@@ -97,5 +97,5 @@ export const createStorage =
       }
     })
 
-    return [state, updateValue]
+    return [state, updateValue] as const
   }
