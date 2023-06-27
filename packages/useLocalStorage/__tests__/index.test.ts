@@ -166,4 +166,20 @@ describe('useLocalStorage', () => {
     })
     expect(result.current.value).toEqual({ age: 4 })
   })
+
+  it('useLocalStorage update state method keep immutable', async () => {
+    let last: (val: unknown) => void
+    const { result, rerender } = renderHook(() => {
+      const [value, setValue] = useLocalStorage('immutable')
+      return { value, setValue }
+    })
+    last = result.current.setValue
+
+    rerender()
+    expect(result.current.setValue).toEqual(last)
+    last = result.current.setValue
+
+    rerender()
+    expect(result.current.setValue).toEqual(last)
+  })
 })
