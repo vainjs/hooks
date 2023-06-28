@@ -1,3 +1,5 @@
+import type { DataItem } from './interface'
+
 export function sleep(duration = 0) {
   return new Promise((resolve) => {
     setTimeout(resolve, duration)
@@ -36,4 +38,20 @@ export function snakeCase(str: string) {
     .replace(/['\u2019]/g, '')
     .replace(/([A-Z]+)/g, (m, p) => `_${p.toLowerCase()}`)
     .replace(/ +/g, '_')
+}
+
+export function filterParams(params: DataItem) {
+  params = { ...params }
+  for (const key in params) {
+    if (params.hasOwnProperty(key)) {
+      const v = params[key] ?? ''
+      // delete '', undefined, null
+      if (v === '') {
+        delete params[key]
+      } else if (typeof v === 'string') {
+        params[key] = v.trim()
+      }
+    }
+  }
+  return params
 }
