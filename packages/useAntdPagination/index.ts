@@ -13,7 +13,7 @@ export interface Response extends DataItem {
   /**
    * list data field
    */
-  results: DataItem[]
+  list: DataItem[]
   total: number
 }
 
@@ -29,7 +29,7 @@ export interface Options {
 const defaultPagination = { total: 0, current: 1, pageSize: 10 }
 const defaultOptions = {
   transformResponse: (response: DataItem) => ({
-    results: [],
+    list: [],
     total: 0,
     ...response,
   }),
@@ -40,9 +40,9 @@ const defaultOptions = {
 
 /**
  * default request params: { page: 1, pageSize: 10, param1: 'a', param2: 'b'}
- * default response data: { code: 0, message: 'ok', data: { results: [], total: 100 } }
+ * default response data: { code: 0, message: 'ok', data: { list: [], total: 100 } }
  */
-export function useAntdPagination(options: Options) {
+function useAntdPagination(options: Options) {
   const memoOptions = useMemoize({ ...defaultOptions, ...options })
   const paginationRef = useRef({
     ...defaultPagination,
@@ -70,7 +70,7 @@ export function useAntdPagination(options: Options) {
           res = transformResponse(res)
           paramsCacheRef.current = cache
           paginationRef.current.total = res.total
-          setDataSource(res.results)
+          setDataSource(res.list)
         })
         .finally(() => {
           setLoading(false)
@@ -105,21 +105,26 @@ export function useAntdPagination(options: Options) {
     getData()
   }, [getData])
 
-  const pagination = {
-    onChange(page: number, pageSize: number) {
+  const onChange = useCallback(
+    (page: number, pageSize: number) => {
       paginationRef.current.current = page
       paginationRef.current.pageSize = pageSize
       getData()
     },
-    ...paginationRef.current,
-  }
+    [getData]
+  )
 
   return {
+    pagination: {
+      onChange,
+      ...paginationRef.current,
+    },
     refresh: getData,
     deleteRefresh,
     onSearch,
-    pagination,
     dataSource,
     loading,
   }
 }
+
+export default useAntdPagination
