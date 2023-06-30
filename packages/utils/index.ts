@@ -34,10 +34,12 @@ export function isNil(value: unknown) {
 }
 
 export function snakeCase(str: string) {
-  return str
-    .replace(/['\u2019]/g, '')
-    .replace(/([A-Z]+)/g, (m, p) => `_${p.toLowerCase()}`)
-    .replace(/ +/g, '_')
+  return String(str)
+    .replace(/([A-Z]+)/g, (m, p) => `${p.toLowerCase()}`)
+    .replace(/([\W_]+)/g, ' ')
+    .trim()
+    .split(' ')
+    .join('_')
 }
 
 export function filterParams(params: DataItem) {

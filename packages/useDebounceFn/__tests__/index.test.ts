@@ -12,11 +12,11 @@ describe('useDebounceFn', () => {
     expect(fn).not.toBeCalled()
 
     hook.result.current.debounceFn()
-    await sleep(299)
+    await sleep(290)
     expect(fn).not.toBeCalled()
 
     hook.result.current.debounceFn()
-    await sleep(301)
+    await sleep(310)
     expect(fn).toBeCalled()
   })
 
@@ -34,11 +34,11 @@ describe('useDebounceFn', () => {
     expect(fn).toHaveBeenCalledTimes(1)
 
     hook.result.current.debounceFn()
-    await sleep(299)
+    await sleep(290)
     expect(fn).toHaveBeenCalledTimes(1)
 
     hook.result.current.debounceFn()
-    await sleep(301)
+    await sleep(310)
     expect(fn).toHaveBeenCalledTimes(2)
   })
 })

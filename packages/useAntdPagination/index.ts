@@ -115,6 +115,7 @@ function useAntdPagination(options: Options) {
   )
 
   return {
+    paramsCache: paramsCacheRef.current,
     pagination: {
       onChange,
       ...paginationRef.current,
