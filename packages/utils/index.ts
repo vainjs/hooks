@@ -35,7 +35,7 @@ export function isNil(value: unknown) {
 
 export function snakeCase(str: string) {
   return String(str)
-    .replace(/([A-Z]+)/g, (m, p) => `${p.toLowerCase()}`)
+    .replace(/([A-Z]+)/g, (m, p) => ` ${p.toLowerCase()}`)
     .replace(/([\W_]+)/g, ' ')
     .trim()
     .split(' ')
