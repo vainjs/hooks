@@ -1,4 +1,4 @@
-import type { DataItem } from './interface'
+import type { DataItem } from './type'
 
 export function sleep(duration = 0) {
   return new Promise((resolve) => {
@@ -56,4 +56,15 @@ export function filterParams(params: DataItem) {
     }
   }
   return params
+}
+
+/**
+ * +0 === -0 and NaN === NaN
+ */
+export function sameValueZero(x: unknown, y: unknown) {
+  if (typeof x === 'number' && typeof y === 'number') {
+    // -0 and 0 or NaN and NaN
+    return x === y || (x !== x && y !== y)
+  }
+  return x === y
 }

@@ -1,5 +1,5 @@
 import type { PaginationProps } from 'antd/lib/pagination'
-import type { DataItem } from '../utils/interface'
+import type { DataItem } from '../utils/type'
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { filterParams } from '../utils'
 import useMemoize from '../useMemoize'

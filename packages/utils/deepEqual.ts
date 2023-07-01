@@ -1,31 +1,54 @@
-import { getPrimitiveType } from './index'
+import { getPrimitiveType, sameValueZero } from './index'
 
-const OBJECT_TYPE = '[object Object]'
-const ARRAY_TYPE = '[object Array]'
-const REF_TYPES = [OBJECT_TYPE, ARRAY_TYPE]
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function deepEqual(target: any, other: any): boolean {
   const targetType = getPrimitiveType(target)
   const otherType = getPrimitiveType(other)
   if (targetType !== otherType) return false
+  /**
+   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness#comparing_equality_methods
+   *
+   * shallow compare basic type: boolean, number, string, null, undefined
+   * shallow compare reference type:
+   * const target = { a: 1 }
+   * deepEqual(target, target) // true
+   */
+  if (sameValueZero(target, other)) return true
 
-  if (!REF_TYPES.includes(targetType)) return Object.is(target, other)
+  switch (targetType) {
+    case '[object Boolean]':
+    case '[object String]':
+    case '[object Number]':
+      // one is a primitive, another a `new Primitive()`
+      if (typeof target !== typeof other) {
+        return false
+      } else {
+        // both are `new Primitive()`s
+        return sameValueZero(target.valueOf(), other.valueOf())
+      }
+    case '[object Date]':
+      return +target == +other
+    case '[object Error]':
+      return target.message == other.message
+    case '[object RegExp]':
+      return target.source === other.source && target.flags === other.flags
+  }
 
-  if (targetType === OBJECT_TYPE) {
+  if (targetType === '[object Object]') {
     const targetKeys = Object.keys(target)
     const otherKeys = Object.keys(other)
     if (targetKeys.length !== otherKeys.length) return false
     let n = targetKeys.length - 1
 
     while (n >= 0) {
-      if (!deepEqual(target[targetKeys[n]], other[targetKeys[n]])) return false
+      // ignore the order: deepEqual({ a: 1, b: 2 }, { b: 2, a: 1 }) // true
+      const key = targetKeys[n]
+      if (!deepEqual(target[key], other[key])) return false
       n--
     }
     return true
   }
 
-  if (targetType === ARRAY_TYPE) {
+  if (targetType === '[object Array]') {
     if (target.length !== other.length) return false
     let n = target.length - 1
     while (n >= 0) {
