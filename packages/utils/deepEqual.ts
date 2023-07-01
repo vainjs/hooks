@@ -7,7 +7,7 @@ function deepEqual(target: any, other: any): boolean {
   /**
    * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness#comparing_equality_methods
    *
-   * shallow compare basic type: boolean, number, string, null, undefined
+   * shallow compare basic type: boolean, number, string, null, undefined, bigint, symbol
    * shallow compare reference type:
    * const target = { a: 1 }
    * deepEqual(target, target) // true
@@ -18,12 +18,11 @@ function deepEqual(target: any, other: any): boolean {
     case '[object Boolean]':
     case '[object String]':
     case '[object Number]':
-      // one is a primitive, another a `new Primitive()`
-      if (typeof target !== typeof other) {
-        return false
-      } else {
-        // both are `new Primitive()`s
+      // both are `new Primitive()`s
+      if (typeof target === 'object' && typeof other === 'object') {
         return sameValueZero(target.valueOf(), other.valueOf())
+      } else {
+        return sameValueZero(target, other)
       }
     case '[object Date]':
       return +target == +other
