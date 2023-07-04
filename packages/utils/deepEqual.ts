@@ -25,9 +25,9 @@ function deepEqual(target: any, other: any): boolean {
         return sameValueZero(target, other)
       }
     case '[object Date]':
-      return +target == +other
+      return +target === +other
     case '[object Error]':
-      return target.message == other.message
+      return target.message === other.message
     case '[object RegExp]':
       return target.source === other.source && target.flags === other.flags
   }
