@@ -7,7 +7,8 @@
     "baseUrl": "./",
     "noImplicitThis": false,
     "esModuleInterop": true,
-    "target": "ES2020"
+    "target": "ES2020",
+    "moduleResolution": "nodenext"
   },
   "exclude": [
     "node_modules",
