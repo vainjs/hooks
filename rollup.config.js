@@ -7,6 +7,7 @@ import pkg from './package.json' assert { type: 'json' }
 
 const getDir = (url) => path.parse(url).dir
 
+const external = Object.keys(pkg.peerDependencies)
 const cjsDir = getDir(pkg.main)
 const esDir = getDir(pkg.module)
 const entries = Object.fromEntries(
@@ -26,15 +27,16 @@ export default [
       {
         format: 'es',
         dir: esDir,
-        plugins: [
-          clear({
-            targets: ['dist'],
-          }),
-          typescript({ compilerOptions: { declarationDir: esDir } }),
-        ],
+        entryFileNames: '[name].mjs',
       },
     ],
-    external: Object.keys(pkg.peerDependencies),
+    plugins: [
+      clear({
+        targets: ['dist'],
+      }),
+      typescript({ compilerOptions: { declarationDir: esDir } }),
+    ],
+    external,
   },
   {
     input: entries,
@@ -42,15 +44,16 @@ export default [
       {
         format: 'cjs',
         dir: cjsDir,
+        entryFileNames: '[name].cjs',
       },
     ],
     plugins: [
       clear({
         targets: ['dist'],
       }),
-      typescript({ compilerOptions: { declarationDir: cjsDir } }),
+      typescript({ compilerOptions: { declaration: false } }),
     ],
-    external: Object.keys(pkg.peerDependencies),
+    external,
   },
   {
     input: 'packages/index.ts',
@@ -64,7 +67,7 @@ export default [
         },
       },
     ],
-    external: Object.keys(pkg.peerDependencies),
+    external,
     plugins: [
       clear({
         targets: ['dist'],
