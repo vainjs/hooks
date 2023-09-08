@@ -1,4 +1,5 @@
 import typescript from '@rollup/plugin-typescript'
+import terser from '@rollup/plugin-terser'
 import { fileURLToPath } from 'node:url'
 import clear from 'rollup-plugin-clear'
 import { globSync } from 'glob'
@@ -19,6 +20,7 @@ const entries = Object.fromEntries(
     fileURLToPath(new URL(file, import.meta.url)),
   ])
 )
+const commonPlugins = [process.env.NODE_ENV === 'production' && terser()]
 
 export default [
   {
@@ -35,8 +37,12 @@ export default [
         targets: ['dist'],
       }),
       typescript({ compilerOptions: { declarationDir: esDir } }),
+      ...commonPlugins,
     ],
     external,
+    watch: {
+      include: 'packages/**',
+    },
   },
   {
     input: entries,
@@ -48,10 +54,8 @@ export default [
       },
     ],
     plugins: [
-      clear({
-        targets: ['dist'],
-      }),
       typescript({ compilerOptions: { declaration: false } }),
+      ...commonPlugins,
     ],
     external,
   },
@@ -61,7 +65,7 @@ export default [
       {
         file: pkg.unpkg,
         format: 'umd',
-        name: 'ihooks',
+        name: 'vhooks',
         globals: {
           react: 'React',
         },
@@ -69,10 +73,8 @@ export default [
     ],
     external,
     plugins: [
-      clear({
-        targets: ['dist'],
-      }),
       typescript({ compilerOptions: { declaration: false } }),
+      ...commonPlugins,
     ],
   },
 ]

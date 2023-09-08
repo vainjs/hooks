@@ -5,7 +5,6 @@ export function sleep(duration = 0) {
     setTimeout(resolve, duration)
   })
 }
-
 export function getPrimitiveType(target: unknown) {
   return Object.prototype.toString.call(target)
 }
