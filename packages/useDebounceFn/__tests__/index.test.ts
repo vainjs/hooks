@@ -7,15 +7,15 @@ describe('useDebounceFn', () => {
     const fn = jest.fn()
     const hook = renderHook(() => useDebounceFn(fn, { wait: 300 }))
 
-    hook.result.current.debounceFn()
+    hook.result.current()
     await sleep(100)
     expect(fn).not.toBeCalled()
 
-    hook.result.current.debounceFn()
+    hook.result.current()
     await sleep(290)
     expect(fn).not.toBeCalled()
 
-    hook.result.current.debounceFn()
+    hook.result.current()
     await sleep(310)
     expect(fn).toBeCalled()
   })
@@ -26,18 +26,18 @@ describe('useDebounceFn', () => {
       useDebounceFn(fn, { wait: 300, immediate: true })
     )
 
-    hook.result.current.debounceFn()
+    hook.result.current()
     expect(fn).toHaveBeenCalledTimes(1)
 
-    hook.result.current.debounceFn()
+    hook.result.current()
     await sleep(100)
     expect(fn).toHaveBeenCalledTimes(1)
 
-    hook.result.current.debounceFn()
+    hook.result.current()
     await sleep(290)
     expect(fn).toHaveBeenCalledTimes(1)
 
-    hook.result.current.debounceFn()
+    hook.result.current()
     await sleep(310)
     expect(fn).toHaveBeenCalledTimes(2)
   })

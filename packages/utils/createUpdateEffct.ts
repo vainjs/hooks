@@ -1,7 +1,7 @@
 import {
+  type EffectCallback,
+  type DependencyList,
   useLayoutEffect,
-  EffectCallback,
-  DependencyList,
   useEffect,
   useRef,
 } from 'react'

@@ -1,0 +1,51 @@
+name: Publish to npm
+
+on:
+  push:
+    branches:
+      - "main" # 或者你想要触发发布的分支
+    paths:
+      - "package.json" # 当package.json有变动时触发
+      - "packages/**" # 当源码有变动时触发
+      # - "dist/**" # 如果有构建过程，当构建产物有变动时触发
+  pull_request:
+    branches:
+      - "main"
+    paths:
+      - "package.json"
+      - "packages/**"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16 # 使用你项目所支持的Node.js版本
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: |
+          pnpm install
+
+      - name: Run tests
+        run: pnpm test
+
+      - name: Build (if needed)
+        if: steps.install.outputs.cache-hit != 'true' # 只有当依赖有变化时才构建
+        run: pnpm build
+
+      - name: Publish to npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # 在 GitHub 仓库的 Settings > Secrets 里添加 NPM_TOKEN
+        run: pnpm publish --access public

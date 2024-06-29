@@ -4,14 +4,16 @@ import {
   waitFor,
   act,
 } from '@testing-library/react'
-import useAntdPagination from '../index'
+import useAntdPagination, { Response } from '../index'
 
 type Result = ReturnType<typeof useAntdPagination>
 
-const mockApi = () =>
+const response = { total: 100, list: [{ a: 1 }, { a: 2 }, { a: 3 }] }
+
+const mockApi = (): Promise<Response> =>
   new Promise((resolve) => {
     setTimeout(() => {
-      resolve({ total: 100, list: [1, 2, 3] })
+      resolve(response)
     }, 10)
   })
 
@@ -28,8 +30,8 @@ describe('useAntdPagination', () => {
 
     waitFor(() => {
       expect(hook.result.current.loading).toBe(false)
-      expect(hook.result.current.pagination.total).toBe(100)
-      expect(hook.result.current.dataSource).toEqual([1, 2, 3])
+      expect(hook.result.current.pagination.total).toBe(response.total)
+      expect(hook.result.current.dataSource).toEqual(response.list)
     })
   })
 

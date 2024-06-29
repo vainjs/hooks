@@ -7,25 +7,25 @@ describe('useThrottleFn', () => {
     const fn = jest.fn()
     const hook = renderHook(() => useThrottleFn(fn, { wait: 300 }))
 
-    hook.result.current.throttleFn()
+    hook.result.current()
     expect(fn).toHaveBeenCalledTimes(1)
 
-    hook.result.current.throttleFn()
+    hook.result.current()
     await sleep(100)
     expect(fn).toHaveBeenCalledTimes(1)
 
-    hook.result.current.throttleFn()
+    hook.result.current()
     await sleep(190)
     expect(fn).toHaveBeenCalledTimes(1)
 
-    hook.result.current.throttleFn()
+    hook.result.current()
     await sleep(15)
     expect(fn).toHaveBeenCalledTimes(2)
 
-    hook.result.current.throttleFn()
+    hook.result.current()
     expect(fn).toHaveBeenCalledTimes(2)
 
-    hook.result.current.throttleFn()
+    hook.result.current()
     await sleep(301)
     expect(fn).toHaveBeenCalledTimes(3)
   })

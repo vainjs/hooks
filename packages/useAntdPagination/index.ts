@@ -2,25 +2,21 @@ import type { PaginationProps } from 'antd/lib/pagination'
 import type { DataItem } from '../utils/type'
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { filterParams } from '../utils'
-import useMemoize from '../useMemoize'
 
-export interface Request extends DataItem {
+export type Request = {
   pageSize: number
   page: number
-}
+} & DataItem
 
-export interface Response extends DataItem {
-  /**
-   * list data field
-   */
+export type Response = {
   list: DataItem[]
   total: number
-}
+} & DataItem
 
-export interface Options {
-  transformResponse?: (response: DataItem) => Response
-  transformRequest?: (request: Request) => DataItem
-  request: (params?: DataItem) => Promise<any>
+export type Options = {
+  transformResponse?: (response: Response) => Response
+  transformRequest?: (request: Request) => Request
+  request: (params?: Request) => Promise<Response>
   pagination?: PaginationProps
   immediateRequest?: boolean
   initParams?: DataItem
@@ -28,10 +24,9 @@ export interface Options {
 
 const defaultPagination = { total: 0, current: 1, pageSize: 10 }
 const defaultOptions = {
-  transformResponse: (response: DataItem) => ({
-    list: [],
-    total: 0,
-    ...response,
+  transformResponse: (response: Response) => ({
+    total: response.total,
+    list: response.list,
   }),
   transformRequest: (request: Request) => request,
   immediateRequest: true,
@@ -42,48 +37,45 @@ const defaultOptions = {
  * default request params: { page: 1, pageSize: 10, param1: 'a', param2: 'b'}
  * default response data: { code: 0, message: 'ok', data: { list: [], total: 100 } }
  */
-function useAntdPagination(options: Options) {
-  const memoOptions = useMemoize({ ...defaultOptions, ...options })
+function useAntdPagination<T extends DataItem = DataItem>(options: Options) {
+  const optionsRef = useRef({ ...defaultOptions, ...options })
   const paginationRef = useRef({
     ...defaultPagination,
-    ...memoOptions.pagination,
+    ...optionsRef.current.pagination,
   })
   const paramsCacheRef = useRef({})
+  const [dataSource, setDataSource] = useState<T[]>([])
   const [loading, setLoading] = useState(false)
-  const [dataSource, setDataSource] = useState([])
 
-  const getData = useCallback(
-    (params = {}) => {
-      const { request, initParams, transformRequest, transformResponse } =
-        memoOptions
-      const { current, pageSize } = paginationRef.current
-      const cache = transformRequest({
-        ...initParams,
-        ...paramsCacheRef.current,
-        page: current,
-        pageSize,
-        ...filterParams(params),
+  const getData = useCallback(async (params = {}) => {
+    const { request, initParams, transformRequest, transformResponse } =
+      optionsRef.current
+    const { current, pageSize } = paginationRef.current
+    const cache = transformRequest({
+      ...initParams,
+      ...paramsCacheRef.current,
+      page: current,
+      pageSize,
+      ...filterParams(params),
+    })
+    setLoading(true)
+    return request(cache)
+      .then((res) => {
+        res = transformResponse(res)
+        paramsCacheRef.current = cache
+        paginationRef.current.total = res.total
+        setDataSource(res.list as T[])
       })
-      setLoading(true)
-      return request(cache)
-        .then((res: DataItem) => {
-          res = transformResponse(res)
-          paramsCacheRef.current = cache
-          paginationRef.current.total = res.total
-          setDataSource(res.list)
-        })
-        .finally(() => {
-          setLoading(false)
-        })
-    },
-    [memoOptions]
-  )
+      .finally(() => {
+        setLoading(false)
+      })
+  }, [])
 
   useEffect(() => {
-    if (memoOptions.immediateRequest) {
+    if (optionsRef.current.immediateRequest) {
       getData()
     }
-  }, [getData, memoOptions])
+  }, [getData])
 
   const onSearch = useCallback(
     (params?: DataItem) => {
@@ -105,25 +97,23 @@ function useAntdPagination(options: Options) {
     getData()
   }, [getData])
 
-  const onChange = useCallback(
-    (page: number, pageSize: number) => {
-      paginationRef.current.current = page
+  const pagination = {
+    onChange(page: number, pageSize: number) {
+      paginationRef.current.current =
+        pageSize !== paginationRef.current.pageSize ? 1 : page
       paginationRef.current.pageSize = pageSize
       getData()
     },
-    [getData]
-  )
+    ...paginationRef.current,
+  }
 
   return {
     paramsCache: paramsCacheRef.current,
-    pagination: {
-      onChange,
-      ...paginationRef.current,
-    },
     refresh: getData,
     deleteRefresh,
-    onSearch,
     dataSource,
+    pagination,
+    onSearch,
     loading,
   }
 }

@@ -5,7 +5,7 @@ import useThrottleFn from '../useThrottleFn'
 function useThrottle<T>(value: T, options?: ThrottleOptions) {
   const [throttledValue, setThrottledValue] = useState(value)
 
-  const { throttleFn } = useThrottleFn((v) => {
+  const throttleFn = useThrottleFn((v) => {
     setThrottledValue(v as T)
   }, options)
 

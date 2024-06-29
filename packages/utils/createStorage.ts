@@ -66,7 +66,7 @@ export const createStorage =
     const serializer = options.serializer ?? serializers[type]
     const onError = options.onError ?? defaultError
     const realKey = useMemoize(
-      snakeCase(`${options.prefix ?? 'ikanjs_'}${key}`)
+      snakeCase(`${options.prefix ?? 'vainjs_'}${key}`)
     )
 
     const getValue = useCallback(() => {

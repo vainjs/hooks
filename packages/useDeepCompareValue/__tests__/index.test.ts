@@ -1,13 +1,13 @@
 import { act, renderHook } from '@testing-library/react'
 import { useState } from 'react'
-import useDeepCompareRef from '../index'
+import useDeepCompareValue from '../index'
 
-describe('useDeepCompareRef', () => {
-  it('useDeepCompareRef should work', async () => {
+describe('useDeepCompareValue', () => {
+  it('useDeepCompareValue should work', async () => {
     const hook = renderHook(() => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const [value, setValue] = useState<any>(0)
-      const memoizeValue = useDeepCompareRef(value)
+      const memoizeValue = useDeepCompareValue(value)
       return { memoizeValue, setValue }
     })
     expect(hook.result.current.memoizeValue).toBe(0)
