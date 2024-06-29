@@ -1,6 +1,6 @@
-import { useEffect, EffectCallback, DependencyList } from 'react'
-import useDeepCompareRef from '../useDeepCompareRef'
-import type { ThrottleOptions } from '../utils/throttle'
+import { type EffectCallback, type DependencyList, useEffect } from 'react'
+import { type ThrottleOptions } from '../utils/throttle'
+import useDeepCompareValue from '../useDeepCompareValue'
 import useThrottleFn from '../useThrottleFn'
 
 interface useThrottleEffectOptions extends ThrottleOptions {
@@ -13,8 +13,8 @@ function useThrottleEffect(
   options: useThrottleEffectOptions = {}
 ) {
   const { deepCompare, ...throttleOptions } = options
-  const { throttleFn } = useThrottleFn(fn, throttleOptions)
-  const deepCompareDeps = useDeepCompareRef(deps)
+  const throttleFn = useThrottleFn(fn, throttleOptions)
+  const deepCompareDeps = useDeepCompareValue(deps)
 
   useEffect(
     () => {

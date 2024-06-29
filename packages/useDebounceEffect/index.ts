@@ -1,9 +1,9 @@
-import { useEffect, EffectCallback, DependencyList } from 'react'
-import useDeepCompareRef from '../useDeepCompareRef'
-import type { DebounceOptions } from '../utils/debounce'
+import { type EffectCallback, type DependencyList, useEffect } from 'react'
+import { type DebounceOptions } from '../utils/debounce'
+import useDeepCompareValue from '../useDeepCompareValue'
 import useDebounceFn from '../useDebounceFn'
 
-interface useDebounceEffectOptions extends DebounceOptions {
+type useDebounceEffectOptions = DebounceOptions & {
   deepCompare?: boolean
 }
 
@@ -13,8 +13,8 @@ function useDebounceEffect(
   options: useDebounceEffectOptions = {}
 ) {
   const { deepCompare, ...debounceOptions } = options
-  const { debounceFn } = useDebounceFn(fn, debounceOptions)
-  const deepCompareDeps = useDeepCompareRef(deps)
+  const debounceFn = useDebounceFn(fn, debounceOptions)
+  const deepCompareDeps = useDeepCompareValue(deps)
 
   useEffect(
     () => {

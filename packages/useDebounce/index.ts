@@ -5,7 +5,7 @@ import useDebounceFn from '../useDebounceFn'
 function useDebounce<T>(value: T, options?: DebounceOptions) {
   const [debouncedValue, setDebouncedValue] = useState(value)
 
-  const { debounceFn } = useDebounceFn((v) => {
+  const debounceFn = useDebounceFn((v) => {
     setDebouncedValue(v as T)
   }, options)
 
