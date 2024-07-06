@@ -67,3 +67,9 @@ export function sameValueZero(x: unknown, y: unknown) {
   }
   return x === y
 }
+
+export const isBrowser = !!(
+  typeof window !== 'undefined' &&
+  window.document &&
+  window.document.createElement
+)
