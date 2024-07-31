@@ -1,13 +1,13 @@
 import { type EffectCallback, type DependencyList, useEffect } from 'react'
 import { type DebounceOptions } from '../utils/debounce'
-import useDeepCompareValue from '../useDeepCompareValue'
-import useDebounceFn from '../useDebounceFn'
+import { useDeepCompareValue } from '../useDeepCompareValue'
+import { useDebounceFn } from '../useDebounceFn'
 
 type useDebounceEffectOptions = DebounceOptions & {
   deepCompare?: boolean
 }
 
-function useDebounceEffect(
+export function useDebounceEffect(
   fn: EffectCallback,
   deps: DependencyList,
   options: useDebounceEffectOptions = {}
@@ -24,5 +24,3 @@ function useDebounceEffect(
     deepCompare ? deepCompareDeps : deps
   )
 }
-
-export default useDebounceEffect

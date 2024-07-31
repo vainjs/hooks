@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { isNil } from '../utils'
 
-function useMemoize<T>(value: T) {
+export function useMemoize<T>(value: T) {
   const valueRef = useRef<T>()
 
   if (isNil(valueRef.current)) {
@@ -10,5 +10,3 @@ function useMemoize<T>(value: T) {
 
   return valueRef.current as T
 }
-
-export default useMemoize

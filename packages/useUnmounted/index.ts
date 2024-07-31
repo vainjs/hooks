@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import { isFunction } from '../utils'
-import useLatest from '../useLatest'
+import { useLatest } from '../useLatest'
 
-function useUnmounted(fn: () => void) {
+export function useUnmounted(fn: () => void) {
   const fnRef = useLatest(fn)
 
   useEffect(
@@ -14,5 +14,3 @@ function useUnmounted(fn: () => void) {
     [fnRef]
   )
 }
-
-export default useUnmounted

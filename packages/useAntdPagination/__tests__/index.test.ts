@@ -4,7 +4,7 @@ import {
   waitFor,
   act,
 } from '@testing-library/react'
-import useAntdPagination, { Response } from '../index'
+import { Response, useAntdPagination } from '../index'
 
 type Result = ReturnType<typeof useAntdPagination>
 

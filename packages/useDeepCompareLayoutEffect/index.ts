@@ -3,11 +3,12 @@ import {
   type DependencyList,
   useLayoutEffect,
 } from 'react'
-import useDeepCompareValue from '../useDeepCompareValue'
+import { useDeepCompareValue } from '../useDeepCompareValue'
 
-function useDeepCompareLayoutEffect(fn: EffectCallback, deps: DependencyList) {
+export function useDeepCompareLayoutEffect(
+  fn: EffectCallback,
+  deps: DependencyList
+) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   return useLayoutEffect(fn, useDeepCompareValue(deps))
 }
-
-export default useDeepCompareLayoutEffect

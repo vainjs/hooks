@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { type BasicTarget, getTargetElement } from '../utils/domTarget'
-import useLatest from '../useLatest'
+import { useLatest } from '../useLatest'
 
 type DocumentEventName = keyof DocumentEventMap
 
@@ -8,7 +8,7 @@ function getArray<T>(data: T | T[]) {
   return Array.isArray(data) ? data : [data]
 }
 
-function useClickAway<T extends Event = Event>(
+export function useClickAway<T extends Event = Event>(
   fn: (event: T) => void,
   target: BasicTarget | BasicTarget[],
   eventName: DocumentEventName | DocumentEventName[] = 'click'
@@ -40,5 +40,3 @@ function useClickAway<T extends Event = Event>(
     }
   }, [eventNameRef, fnRef, targetRef])
 }
-
-export default useClickAway

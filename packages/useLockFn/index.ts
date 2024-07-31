@@ -1,5 +1,5 @@
 import { useRef, useCallback } from 'react'
-import useLatest from '../useLatest'
+import { useLatest } from '../useLatest'
 
 type Options = {
   /**
@@ -8,7 +8,7 @@ type Options = {
   timing?: 'catch' | 'finally'
 }
 
-function useLockFn<P extends any[] = any[], R = any>(
+export function useLockFn<P extends any[] = any[], R = any>(
   fn: (...args: P) => Promise<R>,
   options: Options = { timing: 'catch' }
 ) {
@@ -38,5 +38,3 @@ function useLockFn<P extends any[] = any[], R = any>(
     [fnRef]
   )
 }
-
-export default useLockFn

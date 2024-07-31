@@ -1,5 +1,3 @@
 import { createStorage } from '../utils/createStorage'
 
-const useSessionStorage = createStorage(sessionStorage)
-
-export default useSessionStorage
+export const useSessionStorage = createStorage(sessionStorage)

@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react'
 import { useState } from 'react'
-import useDeepCompareMemo from '../index'
+import { useDeepCompareMemo } from '../index'
 
 describe('useDeepCompareMemo', () => {
   it('useDeepCompareMemo should work', async () => {

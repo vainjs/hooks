@@ -1,7 +1,7 @@
 import { type BasicTarget, getTargetElement } from '../utils/domTarget'
 import { type CSSProperties, useCallback, useRef, useState } from 'react'
-import useMutationObserver from '../useMutationObserver'
-import useResizeObserver from '../useResizeObserver'
+import { useMutationObserver } from '../useMutationObserver'
+import { useResizeObserver } from '../useResizeObserver'
 
 type Position = Pick<CSSProperties, 'position' | 'width' | 'left' | 'top'>
 
@@ -17,7 +17,7 @@ const defaultOptions = {
   gap: 16,
 }
 
-function useWaterfallFlow(target: BasicTarget, options: Options = {}) {
+export function useWaterfallFlow(target: BasicTarget, options: Options = {}) {
   const optionsRef = useRef({ ...defaultOptions, ...options })
   const [position, setPoision] = useState<Map<string, Position>>(new Map())
   const maxHeightRef = useRef(0)
@@ -69,5 +69,3 @@ function useWaterfallFlow(target: BasicTarget, options: Options = {}) {
     childNodeStyles: position,
   }
 }
-
-export default useWaterfallFlow

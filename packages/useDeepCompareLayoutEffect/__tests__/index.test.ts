@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react'
 import { useState } from 'react'
-import useDeepCompareLayoutEffect from '../index'
+import { useDeepCompareLayoutEffect } from '../index'
 
 describe('useDeepCompareLayoutEffect', () => {
   it('useDeepCompareLayoutEffect should work', async () => {

@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react'
 import { sleep } from '../../utils'
-import useThrottle from '../index'
+import { useThrottle } from '../index'
 
 describe('useThrottle', () => {
   it('useDebounce should work', async () => {

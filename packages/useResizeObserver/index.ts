@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { type BasicTarget, getTargetElement } from '../utils/domTarget'
-import useLatest from '../useLatest'
+import { useLatest } from '../useLatest'
 
-function useResizeObserver(
+export function useResizeObserver(
   fn: ResizeObserverCallback,
   target: BasicTarget,
   options: ResizeObserverOptions = {}
@@ -21,5 +21,3 @@ function useResizeObserver(
     }
   }, [fnRef, targetRef])
 }
-
-export default useResizeObserver

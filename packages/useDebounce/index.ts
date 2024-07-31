@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import type { DebounceOptions } from '../utils/debounce'
-import useDebounceFn from '../useDebounceFn'
+import { useDebounceFn } from '../useDebounceFn'
 
-function useDebounce<T>(value: T, options?: DebounceOptions) {
+export function useDebounce<T>(value: T, options?: DebounceOptions) {
   const [debouncedValue, setDebouncedValue] = useState(value)
 
   const debounceFn = useDebounceFn((v) => {
@@ -15,5 +15,3 @@ function useDebounce<T>(value: T, options?: DebounceOptions) {
 
   return debouncedValue
 }
-
-export default useDebounce

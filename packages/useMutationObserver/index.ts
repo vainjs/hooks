@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { type BasicTarget, getTargetElement } from '../utils/domTarget'
-import useLatest from '../useLatest'
+import { useLatest } from '../useLatest'
 
-function useMutationObserver(
+export function useMutationObserver(
   fn: MutationCallback,
   target: BasicTarget,
   options: MutationObserverInit = { childList: true, subtree: true }
@@ -21,5 +21,3 @@ function useMutationObserver(
     }
   }, [fnRef, targetRef])
 }
-
-export default useMutationObserver

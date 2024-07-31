@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react'
 import { useState } from 'react'
-import useMemoize from '../index'
+import { useMemoize } from '../index'
 
 describe('useMemoize', () => {
   it('useMemoize should work with number', async () => {

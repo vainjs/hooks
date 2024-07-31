@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
 import { getType, isFunction, isNil, snakeCase } from './index'
-import useMemoize from '../useMemoize'
+import { useMemoize } from '../useMemoize'
 
 export interface Serializer<T> {
   get(raw: string): T

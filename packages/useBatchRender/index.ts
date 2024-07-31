@@ -5,7 +5,7 @@ type UseBatchRenderOptions<T = any> = {
   limit?: number
 }
 
-function useBatchRender<T>(options: UseBatchRenderOptions<T>) {
+export function useBatchRender<T>(options: UseBatchRenderOptions<T>) {
   const { limit = 50, dataSource = [] } = options || {}
   const [chunkData, setChunkData] = useState<T[]>([])
   const rafIdRef = useRef<number>()
@@ -39,5 +39,3 @@ function useBatchRender<T>(options: UseBatchRenderOptions<T>) {
 
   return { dataSource: chunkData, cleanup }
 }
-
-export default useBatchRender

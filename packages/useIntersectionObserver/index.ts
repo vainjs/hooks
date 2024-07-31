@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { type BasicTarget, getTargetElement } from '../utils/domTarget'
-import useLatest from '../useLatest'
+import { useLatest } from '../useLatest'
 
-function useIntersectionObserver(
+export function useIntersectionObserver(
   fn: IntersectionObserverCallback,
   target: BasicTarget,
   options: IntersectionObserverInit = {}
@@ -21,5 +21,3 @@ function useIntersectionObserver(
     }
   }, [fnRef, targetRef])
 }
-
-export default useIntersectionObserver

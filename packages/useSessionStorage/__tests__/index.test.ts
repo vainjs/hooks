@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react'
-import useSessionStorage from '../index'
+import { useSessionStorage } from '../index'
 
 describe('useSessionStorage', () => {
   it('useSessionStorage support string', async () => {

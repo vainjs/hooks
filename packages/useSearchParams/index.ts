@@ -1,12 +1,12 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
-type Params = Record<string, string>
+export function useSearchParams<T extends Record<string, string>>(
+  search?: string
+): [T, () => void] {
+  const [signal, setSignal] = useState(0)
 
-function useSearchParams<T extends Params = Params>(search?: string) {
-  const [params, setParams] = useState({} as T)
-
-  const getParams = useCallback(() => {
-    const v = search || location.search
+  const params = useMemo(() => {
+    const v = search || window.location.search
     let params = {} as T
     if (!v) return params
     const searchParams = new URLSearchParams(v)
@@ -16,13 +16,12 @@ function useSearchParams<T extends Params = Params>(search?: string) {
       }
     }
     return params
-  }, [search])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [signal])
 
-  useEffect(() => {
-    setParams(getParams())
-  }, [getParams])
+  const update = useCallback(() => {
+    setSignal((prev) => prev + 1)
+  }, [])
 
-  return params
+  return [params, update]
 }
-
-export default useSearchParams

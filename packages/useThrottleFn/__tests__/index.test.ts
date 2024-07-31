@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react'
 import { sleep } from '../../utils'
-import useThrottleFn from '../index'
+import { useThrottleFn } from '../index'
 
 describe('useThrottleFn', () => {
   it('useThrottleFn should work', async () => {

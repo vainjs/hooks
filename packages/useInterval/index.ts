@@ -5,7 +5,7 @@ interface IntervalOptions {
   immediate?: boolean
 }
 
-function useInterval(
+export function useInterval(
   fn: () => void,
   timeout = 0,
   options: IntervalOptions = {}
@@ -34,5 +34,3 @@ function useInterval(
 
   return clear
 }
-
-export default useInterval

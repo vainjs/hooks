@@ -1,6 +1,6 @@
 import { type BasicTarget } from '../utils/domTarget'
 import { useEffect, useMemo, useCallback, useState, useRef } from 'react'
-import useIntersectionObserver from '../useIntersectionObserver'
+import { useIntersectionObserver } from '../useIntersectionObserver'
 
 type UseLazyRenderOptions<T = any> = {
   target: BasicTarget
@@ -36,5 +36,3 @@ export function useLazyRender<T>(options: UseLazyRenderOptions<T>) {
 
   return chunkData
 }
-
-export default useLazyRender

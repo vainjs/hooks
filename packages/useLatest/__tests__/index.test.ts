@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react'
-import useLatest from '../index'
+import { useLatest } from '../index'
 
 describe('useLatest', () => {
   it('useLatest with basic type should work', async () => {

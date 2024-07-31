@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import deepEqual from '../utils/deepEqual'
 
-function useDeepCompareValue<T>(value: T) {
+export function useDeepCompareValue<T>(value: T) {
   const valueRef = useRef<T>(value)
 
   if (!deepEqual(value, valueRef.current)) {
@@ -10,5 +10,3 @@ function useDeepCompareValue<T>(value: T) {
 
   return valueRef.current
 }
-
-export default useDeepCompareValue

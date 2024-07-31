@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react'
 import { sleep } from '../../utils'
-import useDebounceFn from '../index'
+import { useDebounceFn } from '../index'
 
 describe('useDebounceFn', () => {
   it('useDebounceFn should work', async () => {

@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react'
-import useLocalStorage from '../index'
+import { useLocalStorage } from '../index'
 
 describe('useLocalStorage', () => {
   it('useLocalStorage support string', async () => {

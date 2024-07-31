@@ -1,7 +1,7 @@
 import { renderHook, act } from '@testing-library/react'
 import { useState } from 'react'
 import { sleep } from '../../utils'
-import useDebounceEffect from '../index'
+import { useDebounceEffect } from '../index'
 
 describe('useDebounceEffect', () => {
   it('useDebounceEffect should work', async () => {

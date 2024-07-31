@@ -1,7 +1,7 @@
 import { renderHook, act } from '@testing-library/react'
 import { useState } from 'react'
 import { sleep } from '../../utils'
-import useThrottleEffect from '../index'
+import { useThrottleEffect } from '../index'
 
 describe('useThrottleEffect', () => {
   it('useThrottleEffect should work', async () => {

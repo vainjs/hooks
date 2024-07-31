@@ -1,8 +1,8 @@
 import { useRef, useEffect } from 'react'
 import { isFunction } from '../utils'
-import useLatest from '../useLatest'
+import { useLatest } from '../useLatest'
 
-function useMounted(fn: () => void) {
+export function useMounted(fn: () => void) {
   const isMountedRef = useRef(false)
   const fnRef = useLatest(fn)
 

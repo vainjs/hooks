@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react'
 import { useState } from 'react'
-import useUpdateEffect from '../index'
+import { useUpdateEffect } from '../index'
 
 describe('useUpdateEffect', () => {
   it('useUpdateEffect should work', async () => {
