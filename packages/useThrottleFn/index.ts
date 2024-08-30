@@ -1,9 +1,22 @@
+import { type ThrottleOptions, throttle } from '@vainjs/ore'
 import { useMemo, useRef } from 'react'
-import { throttle, ThrottleOptions } from '../utils/throttle'
-import type { Noop } from '../utils/type'
+import { useLatest } from '../useLatest'
 
-export function useThrottleFn(fn: Noop, options?: ThrottleOptions) {
-  const optionsRef = useRef({ wait: 300, ...options })
-  const fnRef = useRef(fn)
-  return useMemo(() => throttle(fnRef.current, optionsRef.current), [])
+export function useThrottleFn<T extends unknown[]>(
+  fn: (...args: T) => void,
+  wait = 0,
+  options?: ThrottleOptions
+) {
+  const optionsRef = useRef({ ...options })
+  const fnRef = useLatest(fn)
+
+  return useMemo(
+    () =>
+      throttle(
+        (...args: T) => fnRef.current(...args),
+        wait,
+        optionsRef.current
+      ),
+    [fnRef, wait]
+  )
 }

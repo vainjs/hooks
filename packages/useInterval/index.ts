@@ -1,5 +1,5 @@
 import { useEffect, useRef, useCallback } from 'react'
-import { isNumber } from '../utils'
+import { isNumber } from '@vainjs/ore'
 
 interface IntervalOptions {
   immediate?: boolean

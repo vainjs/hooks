@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react'
-import { isFunction } from '../utils'
+import { isFunction } from '@vainjs/ore'
 import { useLatest } from '../useLatest'
 
 export function useMounted(fn: () => void) {

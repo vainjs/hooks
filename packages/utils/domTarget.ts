@@ -1,5 +1,5 @@
+import { isFunction, isBrowser } from '@vainjs/ore'
 import type { MutableRefObject } from 'react'
-import { isFunction, isBrowser } from './index'
 
 type TargetValue<T> = T | undefined | null
 

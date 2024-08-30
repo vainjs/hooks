@@ -1,5 +1,5 @@
+import { isFunction } from '@vainjs/ore'
 import { useEffect } from 'react'
-import { isFunction } from '../utils'
 import { useLatest } from '../useLatest'
 
 export function useUnmounted(fn: () => void) {

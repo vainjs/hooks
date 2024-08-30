@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { type BasicTarget, getTargetElement } from '../utils/domTarget'
-import useEventListener from '../useEventListener'
+import { useEventListener } from '../useEventListener'
 
 type Values = Record<string, any>
 type DataSource<T> = Record<string, T[]>

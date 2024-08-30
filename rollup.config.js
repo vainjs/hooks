@@ -1,56 +1,41 @@
 import typescript from '@rollup/plugin-typescript'
 import terser from '@rollup/plugin-terser'
-import { fileURLToPath } from 'node:url'
 import clear from 'rollup-plugin-clear'
-import { globSync } from 'glob'
 import path from 'node:path'
 import pkg from './package.json' assert { type: 'json' }
 
 const getDir = (url) => path.parse(url).dir
-
-const external = Object.keys(pkg.peerDependencies)
-const cjsDir = getDir(pkg.main)
-const esDir = getDir(pkg.module)
-const entries = Object.fromEntries(
-  globSync('packages/**/*.ts', { ignore: '**/__tests__/**' }).map((file) => [
-    path.relative(
-      'packages',
-      file.slice(0, file.length - path.extname(file).length)
-    ),
-    fileURLToPath(new URL(file, import.meta.url)),
-  ])
-)
+const external = Object.keys(pkg.peerDependencies || {})
 const commonPlugins = [process.env.NODE_ENV === 'production' && terser()]
 
 export default [
   {
-    input: entries,
+    input: 'packages/index.ts',
     output: [
       {
-        format: 'es',
-        dir: esDir,
         entryFileNames: '[name].mjs',
+        dir: getDir(pkg.module),
+        preserveModules: true,
+        format: 'es',
       },
     ],
     plugins: [
       clear({
         targets: ['dist'],
       }),
-      typescript({ compilerOptions: { declarationDir: esDir } }),
+      typescript({ compilerOptions: { declarationDir: getDir(pkg.types) } }),
       ...commonPlugins,
     ],
     external,
-    watch: {
-      include: 'packages/**',
-    },
   },
   {
-    input: entries,
+    input: 'packages/index.ts',
     output: [
       {
-        format: 'cjs',
-        dir: cjsDir,
         entryFileNames: '[name].cjs',
+        preserveModules: true,
+        dir: getDir(pkg.main),
+        format: 'cjs',
       },
     ],
     plugins: [
@@ -71,10 +56,10 @@ export default [
         },
       },
     ],
-    external,
     plugins: [
       typescript({ compilerOptions: { declaration: false } }),
       ...commonPlugins,
     ],
+    external,
   },
 ]

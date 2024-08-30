@@ -1,5 +1,5 @@
+import { isNil } from '@vainjs/ore'
 import { useRef } from 'react'
-import { isNil } from '../utils'
 
 export function useMemoize<T>(value: T) {
   const valueRef = useRef<T>()

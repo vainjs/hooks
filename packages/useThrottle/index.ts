@@ -1,17 +1,22 @@
+import type { ThrottleOptions } from '@vainjs/ore'
 import { useEffect, useState } from 'react'
-import type { ThrottleOptions } from '../utils/throttle'
 import { useThrottleFn } from '../useThrottleFn'
 
-export function useThrottle<T>(value: T, options?: ThrottleOptions) {
+export function useThrottle<T>(value: T, wait = 0, options?: ThrottleOptions) {
   const [throttledValue, setThrottledValue] = useState(value)
 
-  const throttleFn = useThrottleFn((v) => {
-    setThrottledValue(v as T)
-  }, options)
+  const throttleFn = useThrottleFn(
+    () => {
+      setThrottledValue(value)
+    },
+    wait,
+    options
+  )
 
   useEffect(() => {
-    throttleFn(value)
-  }, [throttleFn, value])
+    throttleFn()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value])
 
   return throttledValue
 }

@@ -1,9 +1,22 @@
+import { type DebounceOptions, debounce } from '@vainjs/ore'
 import { useMemo, useRef } from 'react'
-import { debounce, DebounceOptions } from '../utils/debounce'
-import type { Noop } from '../utils/type'
+import { useLatest } from '../useLatest'
 
-export function useDebounceFn(fn: Noop, options?: DebounceOptions) {
-  const optionsRef = useRef({ wait: 300, ...options })
-  const fnRef = useRef(fn)
-  return useMemo(() => debounce(fnRef.current, optionsRef.current), [])
+export function useDebounceFn<T extends unknown[]>(
+  fn: (...args: T) => void,
+  wait = 0,
+  options?: DebounceOptions
+) {
+  const optionsRef = useRef({ ...options })
+  const fnRef = useLatest(fn)
+
+  return useMemo(
+    () =>
+      debounce(
+        (...args: T) => fnRef.current(...args),
+        wait,
+        optionsRef.current
+      ),
+    [fnRef, wait]
+  )
 }

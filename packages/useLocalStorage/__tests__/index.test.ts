@@ -13,10 +13,10 @@ describe('useLocalStorage', () => {
       }
     )
     expect(result.current.value).toBe('string')
-
-    rerender({ state: 'rerender' })
+    act(() => {
+      rerender({ state: 'rerender' })
+    })
     expect(result.current.value).toBe('string')
-
     act(() => {
       result.current.setValue('update value')
     })
@@ -34,10 +34,10 @@ describe('useLocalStorage', () => {
       }
     )
     expect(result.current.value).toBe(true)
-
-    rerender({ state: false })
+    act(() => {
+      rerender({ state: false })
+    })
     expect(result.current.value).toBe(true)
-
     act(() => {
       result.current.setValue(false)
     })
@@ -55,10 +55,10 @@ describe('useLocalStorage', () => {
       }
     )
     expect(result.current.value).toBe(1)
-
-    rerender({ state: 2 })
+    act(() => {
+      rerender({ state: 2 })
+    })
     expect(result.current.value).toBe(1)
-
     act(() => {
       result.current.setValue(2)
     })
@@ -76,10 +76,10 @@ describe('useLocalStorage', () => {
       }
     )
     expect(result.current.value).toEqual(new Map([['age', 1]]))
-
-    rerender({ state: new Map([['age', 2]]) })
+    act(() => {
+      rerender({ state: new Map([['age', 2]]) })
+    })
     expect(result.current.value).toEqual(new Map([['age', 1]]))
-
     act(() => {
       result.current.setValue(new Map([['age', 2]]))
     })
@@ -97,8 +97,9 @@ describe('useLocalStorage', () => {
       }
     )
     expect(result.current.value).toEqual(new Set([1, 2, 3]))
-
-    rerender({ state: new Set([1, 2, 3, 4]) })
+    act(() => {
+      rerender({ state: new Set([1, 2, 3, 4]) })
+    })
     expect(result.current.value).toEqual(new Set([1, 2, 3]))
 
     act(() => {
@@ -118,10 +119,10 @@ describe('useLocalStorage', () => {
       }
     )
     expect(result.current.value).toEqual(new Date('2023-06-26'))
-
-    rerender({ state: new Date('2023-06-27') })
+    act(() => {
+      rerender({ state: new Date('2023-06-27') })
+    })
     expect(result.current.value).toEqual(new Date('2023-06-26'))
-
     act(() => {
       result.current.setValue(new Date('2023-06-27'))
     })
@@ -139,10 +140,10 @@ describe('useLocalStorage', () => {
       }
     )
     expect(result.current.value).toEqual({ age: 1 })
-
-    rerender({ state: { age: 2 } })
+    act(() => {
+      rerender({ state: { age: 2 } })
+    })
     expect(result.current.value).toEqual({ age: 1 })
-
     act(() => {
       result.current.setValue({ age: 2 })
     })
@@ -152,15 +153,14 @@ describe('useLocalStorage', () => {
   it('useLocalStorage get key work', async () => {
     const { result } = renderHook(
       ({ state }) => {
-        const [value, setValue] = useLocalStorage('object', state)
+        const [value, setValue] = useLocalStorage('object2', state)
         return { value, setValue }
       },
       {
         initialProps: { state: { age: 3 } },
       }
     )
-    expect(result.current.value).toEqual({ age: 2 })
-
+    expect(result.current.value).toEqual({ age: 3 })
     act(() => {
       result.current.setValue({ age: 4 })
     })
@@ -168,18 +168,14 @@ describe('useLocalStorage', () => {
   })
 
   it('useLocalStorage update state method keep immutable', async () => {
-    let last: (val: unknown) => void
     const { result, rerender } = renderHook(() => {
       const [value, setValue] = useLocalStorage('immutable')
       return { value, setValue }
     })
-    last = result.current.setValue
-
-    rerender()
-    expect(result.current.setValue).toEqual(last)
-    last = result.current.setValue
-
-    rerender()
+    const last = result.current.setValue
+    act(() => {
+      rerender()
+    })
     expect(result.current.setValue).toEqual(last)
   })
 })

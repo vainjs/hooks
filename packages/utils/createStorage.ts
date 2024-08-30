@@ -1,6 +1,7 @@
+import { isFunction, isNil, snakeCase } from '@vainjs/ore'
 import { useState, useCallback } from 'react'
-import { getType, isFunction, isNil, snakeCase } from './index'
 import { useMemoize } from '../useMemoize'
+import { getType } from './index'
 
 export interface Serializer<T> {
   get(raw: string): T
