@@ -6,6 +6,16 @@
   "module": "dist/es/index.mjs",
   "main": "dist/cjs/index.cjs",
   "unpkg": "dist/umd/vhooks.js",
+  "exports": {
+    ".": {
+      "types": "./dist/es/types/index.d.ts",
+      "import": {
+        "node": "./dist/cjs/index.cjs",
+        "default": "./dist/es/index.mjs"
+      },
+      "require": "./dist/cjs/index.cjs"
+    }
+  },
   "type": "module",
   "sideEffects": false,
   "packageManager": "pnpm@8.10.5",
@@ -81,7 +91,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.21.0",
-    "@vainjs/ore": "^0.0.2",
+    "@vainjs/ore": "^0.0.3",
     "tslib": "^2.5.0"
   }
 }

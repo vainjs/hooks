@@ -6,23 +6,21 @@ import {
 } from '../utils/domTarget'
 import { useLatest } from '../useLatest'
 
-export type Target = BasicTarget<TargetType>
-
-type noop = (...args: any[]) => void
+type Target = BasicTarget<TargetType>
 
 type Options<T extends Target = Target> = AddEventListenerOptions & {
   defaultWindow?: boolean
   target?: T
 }
 
-export function useEventListener(
-  eventName: string,
-  handler: noop,
+export function useEventListener<T extends string = string>(
+  eventName: T,
+  fn: (...args: any[]) => void,
   options?: Options
 ) {
   const optionsRef = useRef(options || {})
   const targetRef = useRef<TargetType>()
-  const handlerRef = useLatest(handler)
+  const handlerRef = useLatest(fn)
 
   useEffect(() => {
     const { target, defaultWindow = true } = optionsRef.current
@@ -55,7 +53,10 @@ export function useEventListener(
       once,
     })
 
-    return cleanup
+    return () => {
+      if (signal) return
+      cleanup()
+    }
   }, [cleanup, eventListener, eventName, handlerRef])
 
   return cleanup

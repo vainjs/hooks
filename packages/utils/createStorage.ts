@@ -1,6 +1,6 @@
 import { isFunction, isNil, snakeCase } from '@vainjs/ore'
 import { useState, useCallback } from 'react'
-import { useMemoize } from '../useMemoize'
+import { useMemoized } from '../useMemoized'
 import { getType } from './index'
 
 export interface Serializer<T> {
@@ -62,11 +62,11 @@ export const serializers: Record<SerializerType, Serializer<any>> = {
 export const createStorage =
   (storage: Storage) =>
   <T>(key: string, value?: T | (() => T), options: Options<T> = {}) => {
-    const initValue = useMemoize(isFunction(value) ? value() : value)
+    const initValue = useMemoized(isFunction(value) ? value() : value)
     const type = getType(initValue)
     const serializer = options.serializer ?? serializers[type]
     const onError = options.onError ?? defaultError
-    const realKey = useMemoize(
+    const realKey = useMemoized(
       snakeCase(`${options.prefix ?? 'vainjs_'}${key}`)
     )
 
@@ -82,7 +82,7 @@ export const createStorage =
 
     const [state, setState] = useState<T>(() => getValue())
 
-    const updateValue = useMemoize((val: T | StateUpdater<T>) => {
+    const updateValue = useMemoized((val: T | StateUpdater<T>) => {
       const newVal = isFunction(val) ? val(state) : val
       try {
         if (isNil(newVal)) {

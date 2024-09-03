@@ -14,12 +14,12 @@ export function useThrottleEffect(
   options?: useThrottleEffectOptions
 ) {
   const { deepCompare, wait = 0, ...throttleOptions } = options || {}
-  const throttleFn = useThrottleFn(fn, wait, throttleOptions)
+  const throttledFn = useThrottleFn(fn, wait, throttleOptions)
   const deepCompareDeps = useDeepCompareValue(deps)
 
   useEffect(
     () => {
-      throttleFn()
+      throttledFn()
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     deepCompare ? deepCompareDeps : deps
