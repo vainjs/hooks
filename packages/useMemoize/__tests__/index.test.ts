@@ -1,12 +1,12 @@
 import { act, renderHook } from '@testing-library/react'
 import { useState } from 'react'
-import { useMemoized } from '../index'
+import { useMemoize } from '../index'
 
-describe('useMemoized', () => {
-  it('useMemoized should work with number', async () => {
+describe('useMemoize', () => {
+  it('useMemoize should work with number', async () => {
     const hook = renderHook(() => {
       const [value, setValue] = useState(0)
-      const memoizeValue = useMemoized(value)
+      const memoizeValue = useMemoize(value)
       return { memoizeValue, setValue }
     })
     expect(hook.result.current.memoizeValue).toBe(0)
@@ -22,11 +22,11 @@ describe('useMemoized', () => {
     expect(hook.result.current.memoizeValue).toBe(0)
   })
 
-  it('useMemoized should work with object', async () => {
+  it('useMemoize should work with object', async () => {
     const state = { a: 1 }
     const hook = renderHook(() => {
       const [value, setValue] = useState(state)
-      const memoizeValue = useMemoized(value)
+      const memoizeValue = useMemoize(value)
       return { memoizeValue, setValue }
     })
     expect(hook.result.current.memoizeValue).toBe(state)

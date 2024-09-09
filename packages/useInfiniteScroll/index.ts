@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
+import { reduce } from '@vainjs/ore'
 import { type BasicTarget, getTargetElement } from '../utils/domTarget'
 import { useEventListener } from '../useEventListener'
 
@@ -230,12 +231,12 @@ export function useInfiniteScroll<T extends Values = Values>(
     [dataSource]
   )
 
-  const currentDataSource = dataSource[paginationRef.current.current]
+  const currentDataSource = dataSource[paginationRef.current.current] || []
 
   return {
     initLoading: loading && paginationRef.current.current === 1,
     moreLoading: loading && paginationRef.current.current > 1,
-    noMore: !hasMoreRef.current && size(currentDataSource) > 1,
+    noMore: !hasMoreRef.current && currentDataSource.length > 1,
     dataSource: actualDataSource,
     hasMore: hasMoreRef.current,
     currentDataSource,

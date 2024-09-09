@@ -9,23 +9,24 @@ type UseLazyRenderOptions<T = any> = {
 }
 
 export function useLazyRender<T>(options: UseLazyRenderOptions<T>) {
-  const { limit = 50, target, dataSource = [] } = options || {}
+  const optionsRef = useRef({ limit: 50, ...options })
   const [chunkData, setChunkData] = useState<T[]>([])
   const pageRef = useRef(0)
 
-  const pages = useMemo(
-    () => Math.ceil(dataSource.length / limit),
-    [dataSource.length, limit]
-  )
+  const pages = useMemo(() => {
+    const { dataSource, limit } = optionsRef.current
+    return Math.ceil(dataSource.length / limit)
+  }, [])
 
   const render = useCallback(() => {
     if (pages === 0) return
     pageRef.current += 1
     if (pageRef.current > pages) return
+    const { dataSource, limit } = optionsRef.current
     setChunkData(dataSource.slice(0, pageRef.current * limit))
-  }, [dataSource, limit, pages])
+  }, [pages])
 
-  useIntersectionObserver(render, target)
+  useIntersectionObserver(render, optionsRef.current.target)
 
   useEffect(
     () => () => {
