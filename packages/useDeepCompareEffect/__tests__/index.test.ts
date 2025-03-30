@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react'
 import { useState } from 'react'
-import useDeepCompareEffect from '../index'
+import { useDeepCompareEffect } from '../index'
 
 describe('useDeepCompareEffect', () => {
   it('useDeepCompareEffect should work', async () => {

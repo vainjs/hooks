@@ -1,14 +1,12 @@
+import { isEqual } from '@vainjs/ore'
 import { useRef } from 'react'
-import deepEqual from '../utils/deepEqual'
 
-function useDeepCompareValue<T>(value: T) {
+export function useDeepCompareValue<T>(value: T) {
   const valueRef = useRef<T>(value)
 
-  if (!deepEqual(value, valueRef.current)) {
+  if (!isEqual(value, valueRef.current)) {
     valueRef.current = value
   }
 
   return valueRef.current
 }
-
-export default useDeepCompareValue

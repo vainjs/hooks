@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback } from 'react'
-import { isNumber } from '../utils'
+import { isNumber } from '@vainjs/ore'
 
-function useTimeout(fn: () => void, timeout = 0) {
+export function useTimeout(fn: () => void, timeout = 0) {
   const timerRef = useRef<NodeJS.Timeout | null>(null)
   const fnRef = useRef(fn)
 
@@ -22,5 +22,3 @@ function useTimeout(fn: () => void, timeout = 0) {
 
   return clear
 }
-
-export default useTimeout

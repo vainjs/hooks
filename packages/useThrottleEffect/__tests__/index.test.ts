@@ -1,62 +1,145 @@
-import { renderHook, act } from '@testing-library/react'
-import { useState } from 'react'
-import { sleep } from '../../utils'
-import useThrottleEffect from '../index'
+import { act, renderHook } from '@testing-library/react'
+import { sleep } from '@vainjs/ore'
+import { useThrottleEffect } from '../index'
 
 describe('useThrottleEffect', () => {
-  it('useThrottleEffect should work', async () => {
+  it('should call the function once at the beginning and once at the end if leading is true and trailing is true', async () => {
     const fn = jest.fn()
-    const hook = renderHook(() => {
-      const [value, setValue] = useState({})
-      useThrottleEffect(fn, [value])
-      return { setValue }
+    let hook: any
+    act(() => {
+      hook = renderHook(
+        ({ value }) => {
+          useThrottleEffect(fn, [value], {
+            trailing: true,
+            leading: true,
+            wait: 10,
+          })
+        },
+        { initialProps: { value: 1 } }
+      )
     })
+    hook.rerender({ value: 2 })
     expect(fn).toHaveBeenCalledTimes(1)
-
-    await act(async () => {
-      hook.result.current.setValue({ a: 1, b: 2 })
-    })
-    await sleep(310)
+    await sleep(10)
     expect(fn).toHaveBeenCalledTimes(2)
-
-    await act(async () => {
-      hook.result.current.setValue({ b: 2, a: 1 })
-    })
-    await sleep(310)
+    hook.rerender({ value: 3 })
+    expect(fn).toHaveBeenCalledTimes(2)
+    await sleep(10)
     expect(fn).toHaveBeenCalledTimes(3)
-
-    await act(async () => {
-      hook.result.current.setValue({})
-    })
-    await sleep(310)
+    await sleep(10)
+    hook.rerender({ value: 4 })
+    hook.rerender({ value: 5 })
     expect(fn).toHaveBeenCalledTimes(4)
+    await sleep(10)
+    expect(fn).toHaveBeenCalledTimes(5)
+    hook.rerender({ value: 6 })
+    expect(fn).toHaveBeenCalledTimes(5)
   })
 
-  it('useThrottleEffect should work with deepCompare', async () => {
+  it('should call the function only once immediately if leading is true and trailing is false', async () => {
     const fn = jest.fn()
-    const hook = renderHook(() => {
-      const [value, setValue] = useState({})
-      useThrottleEffect(fn, [value], { deepCompare: true, wait: 100 })
-      return { setValue }
+    let hook: any
+    act(() => {
+      hook = renderHook(
+        ({ value }) => {
+          useThrottleEffect(fn, [value], {
+            trailing: false,
+            leading: true,
+            wait: 10,
+          })
+        },
+        { initialProps: { value: 1 } }
+      )
     })
+    hook.rerender({ value: 2 })
+    hook.rerender({ value: 3 })
     expect(fn).toHaveBeenCalledTimes(1)
-
-    await act(async () => {
-      hook.result.current.setValue({ a: 1, b: 2 })
-    })
-    await sleep(110)
+    await sleep(10)
+    expect(fn).toHaveBeenCalledTimes(1)
+    hook.rerender({ value: 4 })
+    hook.rerender({ value: 5 })
+    hook.rerender({ value: 6 })
     expect(fn).toHaveBeenCalledTimes(2)
-
-    await act(async () => {
-      hook.result.current.setValue({ b: 2, a: 1 })
-    })
-    await sleep(110)
+    await sleep(10)
     expect(fn).toHaveBeenCalledTimes(2)
+  })
 
-    await act(async () => {
-      hook.result.current.setValue({})
+  it('should call the function only once at the end if leading is false and trailing is true', async () => {
+    const fn = jest.fn()
+    let hook: any
+    act(() => {
+      hook = renderHook(
+        ({ value }) => {
+          useThrottleEffect(fn, [value], {
+            trailing: true,
+            leading: false,
+            wait: 10,
+          })
+        },
+        { initialProps: { value: 1 } }
+      )
     })
-    await sleep(110)
-    expect(fn).toHaveBeenCalledTimes(3)
+    hook.rerender({ value: 2 })
+    hook.rerender({ value: 3 })
+    expect(fn).not.toHaveBeenCalled()
+    await sleep(10)
+    expect(fn).toHaveBeenCalledTimes(1)
+    hook.rerender({ value: 4 })
+    hook.rerender({ value: 5 })
+    hook.rerender({ value: 6 })
+    expect(fn).toHaveBeenCalledTimes(1)
+    await sleep(10)
+    expect(fn).toHaveBeenCalledTimes(2)
+  })
+
+  it('should not call the function at all if both leading and trailing are false', async () => {
+    const fn = jest.fn()
+    let hook: any
+    act(() => {
+      hook = renderHook(
+        ({ value }) => {
+          useThrottleEffect(fn, [value], {
+            trailing: false,
+            leading: false,
+            wait: 10,
+          })
+        },
+        { initialProps: { value: 1 } }
+      )
+    })
+    hook.rerender({ value: 2 })
+    hook.rerender({ value: 3 })
+    expect(fn).not.toHaveBeenCalled()
+    await sleep(10)
+    expect(fn).not.toHaveBeenCalled()
+  })
+
+  it('should call the function only once immediately if leading is false and trailing is true and deepCompare is true', async () => {
+    const fn = jest.fn()
+    let hook: any
+    act(() => {
+      hook = renderHook(
+        ({ value }) => {
+          useThrottleEffect(fn, [value], {
+            deepCompare: true,
+            trailing: true,
+            leading: false,
+            wait: 10,
+          })
+        },
+        { initialProps: { value: {} } }
+      )
+    })
+    hook.rerender({ value: {} })
+    hook.rerender({ value: {} })
+    expect(fn).not.toHaveBeenCalled()
+    await sleep(10)
+    expect(fn).toHaveBeenCalledTimes(1)
+    hook.rerender({ value: {} })
+    hook.rerender({ value: {} })
+    hook.rerender({ value: {} })
+    expect(fn).toHaveBeenCalledTimes(1)
+    await sleep(10)
+    expect(fn).toHaveBeenCalledTimes(1)
   })
 })

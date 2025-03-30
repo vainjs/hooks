@@ -1,3 +1,3 @@
-export type Noop = (...args: unknown[]) => unknown
+export type Noop<T> = (...args: T[]) => void
 
 export type DataItem = Record<string, any>

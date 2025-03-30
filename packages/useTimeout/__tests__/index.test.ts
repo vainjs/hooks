@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react'
-import useTimeout from '../index'
+import { useTimeout } from '../index'
 
 describe('useTimeout', () => {
   jest.useFakeTimers()
@@ -8,7 +8,7 @@ describe('useTimeout', () => {
   it('timeout should be clear', () => {
     const fn = jest.fn()
     const { result } = renderHook(() => useTimeout(fn, 100))
-    expect(fn).not.toBeCalled()
+    expect(fn).not.toHaveBeenCalled()
     result.current()
     jest.advanceTimersByTime(110)
     expect(fn).toHaveBeenCalledTimes(0)
@@ -18,7 +18,7 @@ describe('useTimeout', () => {
   it('timeout should work', () => {
     const fn = jest.fn()
     renderHook(() => useTimeout(fn, 100))
-    expect(fn).not.toBeCalled()
+    expect(fn).not.toHaveBeenCalled()
     jest.advanceTimersByTime(101)
     expect(fn).toHaveBeenCalledTimes(1)
   })
@@ -26,7 +26,7 @@ describe('useTimeout', () => {
   it('timeout should stop', () => {
     const fn = jest.fn()
     renderHook(() => useTimeout(fn, 100))
-    expect(fn).not.toBeCalled()
+    expect(fn).not.toHaveBeenCalled()
     jest.advanceTimersByTime(50)
     expect(fn).toHaveBeenCalledTimes(0)
   })

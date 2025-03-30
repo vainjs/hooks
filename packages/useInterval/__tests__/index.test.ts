@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react'
-import useInterval from '../index'
+import { useInterval } from '../index'
 
 describe('useInterval', () => {
   jest.useFakeTimers()
@@ -8,10 +8,10 @@ describe('useInterval', () => {
   it('interval should be clear', () => {
     const fn = jest.fn()
     const { result } = renderHook(() => useInterval(fn, 100))
-    expect(fn).not.toBeCalled()
+    expect(fn).not.toHaveBeenCalled()
     result.current()
     jest.advanceTimersByTime(300)
-    expect(fn).not.toBeCalled()
+    expect(fn).not.toHaveBeenCalled()
     expect(window.clearInterval).toHaveBeenCalledTimes(1)
   })
 
@@ -31,7 +31,7 @@ describe('useInterval', () => {
   it('interval should have been called 1 time', () => {
     const fn = jest.fn()
     renderHook(() => useInterval(fn, 10))
-    expect(fn).not.toBeCalled()
+    expect(fn).not.toHaveBeenCalled()
     jest.advanceTimersByTime(11)
     expect(fn).toHaveBeenCalledTimes(1)
   })
@@ -39,7 +39,7 @@ describe('useInterval', () => {
   it('interval should have been called 5 time', () => {
     const fn = jest.fn()
     renderHook(() => useInterval(fn, 100))
-    expect(fn).not.toBeCalled()
+    expect(fn).not.toHaveBeenCalled()
     jest.advanceTimersByTime(520)
     expect(fn).toHaveBeenCalledTimes(5)
   })
@@ -47,7 +47,6 @@ describe('useInterval', () => {
   it('immediate in options should work', () => {
     const fn = jest.fn()
     renderHook(() => useInterval(fn, 100, { immediate: true }))
-    expect(fn).toBeCalled()
     expect(fn).toHaveBeenCalledTimes(1)
     jest.advanceTimersByTime(210)
     expect(fn).toHaveBeenCalledTimes(3)

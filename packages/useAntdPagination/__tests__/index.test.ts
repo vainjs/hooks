@@ -1,10 +1,6 @@
-import {
-  RenderHookResult,
-  renderHook,
-  waitFor,
-  act,
-} from '@testing-library/react'
-import useAntdPagination, { Response } from '../index'
+import { RenderHookResult, renderHook, act } from '@testing-library/react'
+import { waitFor } from '@testing-library/react'
+import { Response, useAntdPagination } from '../index'
 
 type Result = ReturnType<typeof useAntdPagination>
 

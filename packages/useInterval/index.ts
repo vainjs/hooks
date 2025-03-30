@@ -1,11 +1,11 @@
 import { useEffect, useRef, useCallback } from 'react'
-import { isNumber } from '../utils'
+import { isNumber } from '@vainjs/ore'
 
 interface IntervalOptions {
   immediate?: boolean
 }
 
-function useInterval(
+export function useInterval(
   fn: () => void,
   timeout = 0,
   options: IntervalOptions = {}
@@ -34,5 +34,3 @@ function useInterval(
 
   return clear
 }
-
-export default useInterval

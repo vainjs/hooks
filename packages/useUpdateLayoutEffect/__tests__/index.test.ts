@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react'
 import { useState } from 'react'
-import useUpdateLayoutEffect from '../index'
+import { useUpdateLayoutEffect } from '../index'
 
 describe('useUpdateLayoutEffect', () => {
   it('useUpdateLayoutEffect should work', async () => {
