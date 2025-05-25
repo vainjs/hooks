@@ -82,7 +82,7 @@ export function useInfiniteScroll<T extends Values = Values>(
       if (current === 1) return {}
       return reduce(
         prev,
-        (result, list, page) =>
+        (result: DataSource<T>, list: T[], page: string) =>
           +page < current ? { ...result, [page]: list } : result,
         {}
       )
@@ -227,7 +227,11 @@ export function useInfiniteScroll<T extends Values = Values>(
 
   const actualDataSource = useMemo(
     () =>
-      reduce(dataSource, (result, value) => result.concat(value), [] as T[]),
+      reduce(
+        dataSource,
+        (result: T[], value: T[]) => result.concat(value),
+        [] as T[]
+      ),
     [dataSource]
   )
 

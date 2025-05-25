@@ -2,7 +2,7 @@ import typescript from '@rollup/plugin-typescript'
 import terser from '@rollup/plugin-terser'
 import clear from 'rollup-plugin-clear'
 import path from 'node:path'
-import pkg from './package.json' assert { type: 'json' }
+import pkg from './package.json' with { type: 'json' }
 
 const getDir = (url) => path.parse(url).dir
 const external = Object.keys(pkg.peerDependencies || {})
@@ -36,24 +36,6 @@ export default [
         preserveModules: true,
         dir: getDir(pkg.main),
         format: 'cjs',
-      },
-    ],
-    plugins: [
-      typescript({ compilerOptions: { declaration: false } }),
-      ...commonPlugins,
-    ],
-    external,
-  },
-  {
-    input: 'packages/index.ts',
-    output: [
-      {
-        file: pkg.unpkg,
-        format: 'umd',
-        name: 'vhooks',
-        globals: {
-          react: 'React',
-        },
       },
     ],
     plugins: [
