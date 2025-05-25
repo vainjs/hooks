@@ -1,4 +1,3 @@
-import type { PaginationProps } from 'antd/lib/pagination'
 import type { DataItem } from '../utils/type'
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { filterParams } from '../utils'
@@ -17,7 +16,11 @@ export type Options = {
   transformResponse?: (response: Response) => Response
   transformRequest?: (request: Request) => Request
   request: (params?: Request) => Promise<Response>
-  pagination?: PaginationProps
+  pagination?: {
+    total: number
+    current: number
+    pageSize: number
+  }
   immediateRequest?: boolean
   initParams?: DataItem
 }
@@ -37,9 +40,7 @@ const defaultOptions = {
  * default request params: { page: 1, pageSize: 10, param1: 'a', param2: 'b'}
  * default response data: { code: 0, message: 'ok', data: { list: [], total: 100 } }
  */
-export function useAntdPagination<T extends DataItem = DataItem>(
-  options: Options
-) {
+export function usePagination<T extends DataItem = DataItem>(options: Options) {
   const optionsRef = useRef({ ...defaultOptions, ...options })
   const paginationRef = useRef({
     ...defaultPagination,

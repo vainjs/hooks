@@ -1,8 +1,8 @@
 import { RenderHookResult, renderHook, act } from '@testing-library/react'
 import { waitFor } from '@testing-library/react'
-import { Response, useAntdPagination } from '../index'
+import { Response, usePagination } from '../index'
 
-type Result = ReturnType<typeof useAntdPagination>
+type Result = ReturnType<typeof usePagination>
 
 const response = { total: 100, list: [{ a: 1 }, { a: 2 }, { a: 3 }] }
 
@@ -13,12 +13,12 @@ const mockApi = (): Promise<Response> =>
     }, 10)
   })
 
-describe('useAntdPagination', () => {
+describe('usePagination', () => {
   let hook: RenderHookResult<Result, any>
 
-  it('useAntdPagination should work', async () => {
+  it('usePagination should work', async () => {
     act(() => {
-      hook = renderHook(() => useAntdPagination({ request: mockApi }))
+      hook = renderHook(() => usePagination({ request: mockApi }))
     })
     expect(hook.result.current.loading).toBe(true)
     expect(hook.result.current.pagination.total).toBe(0)
@@ -32,9 +32,9 @@ describe('useAntdPagination', () => {
   })
 
   let last: Result
-  it('useAntdPagination export methods keep immutable', () => {
+  it('usePagination export methods keep immutable', () => {
     act(() => {
-      hook = renderHook(() => useAntdPagination({ request: mockApi }))
+      hook = renderHook(() => usePagination({ request: mockApi }))
     })
     last = hook.result.current
 
