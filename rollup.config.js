@@ -44,22 +44,4 @@ export default [
     ],
     external,
   },
-  {
-    input: 'packages/index.ts',
-    output: [
-      {
-        file: pkg.unpkg,
-        format: 'umd',
-        name: 'vhooks',
-        globals: {
-          react: 'React',
-        },
-      },
-    ],
-    plugins: [
-      typescript({ compilerOptions: { declaration: false } }),
-      ...commonPlugins,
-    ],
-    external,
-  },
 ]

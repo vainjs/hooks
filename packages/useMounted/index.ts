@@ -15,5 +15,3 @@ export function useMounted(fn: () => void) {
     }
   }, [fnRef])
 }
-
-export default useMounted
