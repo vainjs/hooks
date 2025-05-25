@@ -1,12 +1,19 @@
 name: Publish to npm
 
 on:
+  workflow_dispatch:
+    inputs:
+      skip_test:
+        description: "Whether to skip the test"
+        required: false
+        type: boolean
+        default: false
   push:
     branches:
-      - 'main'
+      - "main"
     paths:
-      - 'package.json'
-      - 'packages/**'
+      - "package.json"
+      - "packages/**"
 
 jobs:
   publish:
@@ -32,6 +39,7 @@ jobs:
           pnpm install
 
       - name: Run tests
+        if: ${{ github.event.inputs.skip_test != 'true' }}
         run: pnpm test
 
       - name: Build
