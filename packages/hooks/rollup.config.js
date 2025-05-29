@@ -10,7 +10,7 @@ const commonPlugins = [process.env.NODE_ENV === 'production' && terser()]
 
 export default [
   {
-    input: 'packages/index.ts',
+    input: 'src/index.ts',
     output: [
       {
         entryFileNames: '[name].mjs',
@@ -29,7 +29,7 @@ export default [
     external,
   },
   {
-    input: 'packages/index.ts',
+    input: 'src/index.ts',
     output: [
       {
         entryFileNames: '[name].cjs',

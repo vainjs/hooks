@@ -1,85 +1,29 @@
 {
-  "name": "@vainjs/hooks",
-  "version": "0.0.2",
-  "description": "a silky react hooks library",
-  "types": "dist/es/types/index.d.ts",
-  "module": "dist/es/index.mjs",
-  "main": "dist/cjs/index.cjs",
-  "unpkg": "dist/umd/vhooks.js",
-  "exports": {
-    ".": {
-      "types": "./dist/es/types/index.d.ts",
-      "import": {
-        "node": "./dist/cjs/index.cjs",
-        "default": "./dist/es/index.mjs"
-      },
-      "require": "./dist/cjs/index.cjs"
-    }
-  },
-  "type": "module",
-  "sideEffects": false,
-  "engines": {
-    "node": ">=16.0.0",
-    "pnpm": ">=8.10.5"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
-  },
+  "name": "@vainjs/monorepo",
+  "private": true,
+  "packageManager": "pnpm@10.4.1",
   "scripts": {
-    "dev": "rollup -wc --environment NODE_ENV:development",
-    "build": "rollup -c --environment NODE_ENV:production",
-    "test": "jest",
+    "start": "turbo run storybook --filter=docs",
+    "dev": "turbo dev",
+    "build": "turbo build",
     "prepare": "husky install",
     "preinstall": "npx only-allow pnpm"
   },
-  "keywords": [
-    "react",
-    "hooks"
-  ],
-  "authors": [
-    "youngluooo@gmail.com"
-  ],
-  "license": "MIT",
-  "files": [
-    "dist",
-    "package.json",
-    "README.md"
-  ],
   "devDependencies": {
     "@commitlint/cli": "^17.6.0",
     "@commitlint/config-conventional": "^17.6.0",
-    "@rollup/plugin-terser": "^0.4.3",
-    "@rollup/plugin-typescript": "^11.1.0",
-    "@testing-library/dom": "^8.0.0",
-    "@testing-library/react": "^14.0.0",
-    "@types/jest": "^29.5.0",
-    "@types/node": "^18.15.11",
-    "@types/react": "^18.3.22",
-    "@typescript-eslint/eslint-plugin": "^6.5.0",
-    "@typescript-eslint/parser": "^6.5.0",
-    "eslint": "^8.48.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-prettier": "^5.0.0",
-    "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "glob": "^10.3.1",
+    "@eslint/js": "^9.27.0",
+    "eslint": "^9.27.0",
+    "eslint-plugin-prettier": "^5.4.1",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.2.0",
     "husky": "^8.0.3",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.5.0",
     "lint-staged": "^13.2.1",
     "prettier": "^3.0.3",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "rollup": "^3.29.5",
-    "rollup-plugin-clear": "^2.0.7",
-    "ts-jest": "^29.2.4",
-    "tslib": "^2.8.1",
-    "typescript": "^5.8.3"
-  },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
-    "@vainjs/ore": "^0.0.3"
+    "turbo": "^2.5.3",
+    "typescript-eslint": "^8.33.0"
   },
   "commitlint": {
     "extends": [
