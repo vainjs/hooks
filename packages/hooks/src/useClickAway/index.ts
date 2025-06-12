@@ -4,7 +4,7 @@ import { useLatest } from '../useLatest'
 
 type DocumentEventName = keyof DocumentEventMap
 
-function getArray<T>(data: T | T[]) {
+function toArray<T>(data: T | T[]) {
   return Array.isArray(data) ? data : [data]
 }
 
@@ -19,7 +19,7 @@ export function useClickAway<T extends Event = Event>(
 
   useEffect(() => {
     const handler = (event: any) => {
-      const targets = getArray(targetRef.current)
+      const targets = toArray(targetRef.current)
       if (
         targets.some((item) => {
           const targetElement = getTargetElement(item)
@@ -30,7 +30,7 @@ export function useClickAway<T extends Event = Event>(
       }
       fnRef.current(event)
     }
-    const eventNames = getArray(eventNameRef.current)
+    const eventNames = toArray(eventNameRef.current)
     eventNames.forEach((event) => document.addEventListener(event, handler))
 
     return () => {
