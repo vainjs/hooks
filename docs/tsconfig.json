@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": [
@@ -22,14 +21,14 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "paths": {
+      "@vainjs/hooks": [
+        "../packages/hooks/src"
+      ]
+    }
   },
   "include": [
     "src"
   ],
-  "paths": {
-    "@vainjs/hooks": [
-      "../packages/hooks/src"
-    ]
-  }
 }

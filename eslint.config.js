@@ -26,6 +26,7 @@ export default defineConfig([
   {
     rules: {
       '@typescript-eslint/consistent-type-imports': 'error',
+      'react/react-in-jsx-scope': 'off',
     },
   },
 ])
