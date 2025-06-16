@@ -2,7 +2,11 @@ import type { DebounceOptions } from '@vainjs/ore'
 import { useEffect, useState } from 'react'
 import { useDebounceFn } from '../useDebounceFn'
 
-export function useDebounce<T>(value: T, wait = 0, options?: DebounceOptions) {
+export function useDebounce<T>(
+  value: T,
+  wait = 300,
+  options?: DebounceOptions
+) {
   const [debouncedValue, setDebouncedValue] = useState(value)
   const debouncedFn = useDebounceFn(
     () => {

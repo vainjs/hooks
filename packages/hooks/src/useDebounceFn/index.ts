@@ -4,7 +4,7 @@ import { useLatest } from '../useLatest'
 
 export function useDebounceFn<T extends unknown[]>(
   fn: (...args: T) => void,
-  wait = 0,
+  wait = 300,
   options?: DebounceOptions
 ) {
   const optionsRef = useRef({ ...options })

@@ -1,3 +1,4 @@
+export type { DebounceOptions } from '@vainjs/ore'
 export { useDeepCompareLayoutEffect } from './useDeepCompareLayoutEffect'
 export { useIntersectionObserver } from './useIntersectionObserver'
 export { useUpdateLayoutEffect } from './useUpdateLayoutEffect'
