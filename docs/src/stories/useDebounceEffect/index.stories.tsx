@@ -1,5 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { UseDebounceEffect } from './index'
+import {
+  UseDebounceEffectDeps,
+  UseDebounceEffectDeep,
+  UseDebounceEffect,
+} from './index'
 
 /**
  * 提供类似于 useEffect 的防抖功能，在依赖项变化时，延迟执行回调函数。
@@ -58,4 +62,28 @@ export const Options: Story = {
   args: {
     options: { leading: true, trailing: true, wait: 1000 },
   },
+}
+
+export const Deps: Story = {
+  name: '依赖数组',
+  args: {
+    options: { wait: 1000 },
+  },
+  render: (args) => <UseDebounceEffectDeps {...args} />,
+}
+
+export const DeepTrue: Story = {
+  name: '配置项: deep: true',
+  args: {
+    options: { deep: true, wait: 1000 },
+  },
+  render: (args) => <UseDebounceEffectDeep {...args} />,
+}
+
+export const DeepFalse: Story = {
+  name: '配置项: deep: false',
+  args: {
+    options: { deep: false, wait: 1000 },
+  },
+  render: (args) => <UseDebounceEffectDeep {...args} />,
 }

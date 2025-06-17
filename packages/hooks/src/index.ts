@@ -6,7 +6,10 @@ export { useDeepCompareEffect } from './useDeepCompareEffect'
 export { useMutationObserver } from './useMutationObserver'
 export { useDeepCompareValue } from './useDeepCompareValue'
 export { useDeepCompareMemo } from './useDeepCompareMemo'
-export { useDebounceEffect } from './useDebounceEffect'
+export {
+  type UseDebounceEffectOptions,
+  useDebounceEffect,
+} from './useDebounceEffect'
 export { useSessionStorage } from './useSessionStorage'
 export { useThrottleEffect } from './useThrottleEffect'
 export { useResizeObserver } from './useResizeObserver'
