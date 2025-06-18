@@ -14,7 +14,7 @@ export const UseDebounceEffect: FC<{
 
   useDebounceEffect(
     () => {
-      setLog((prev) => [...prev, `万物静观皆自得: ${new Date().getTime()}`])
+      setLog((prev) => [`万物静观皆自得: ${new Date().getTime()}`, ...prev])
     },
     [],
     props.options
