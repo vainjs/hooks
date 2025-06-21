@@ -33,7 +33,6 @@ const meta = {
         type: {
           summary: '{ immediate?: boolean }',
         },
-        defaultValue: { summary: '{}' },
       },
     },
   },

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback } from 'react'
 import { isNumber } from '@vainjs/ore'
 
-export function useTimeout(fn: () => void, timeout = 0) {
+export function useTimeout(fn: () => void, delay?: number) {
   const timerRef = useRef<NodeJS.Timeout | null>(null)
   const fnRef = useRef(fn)
 
@@ -13,12 +13,11 @@ export function useTimeout(fn: () => void, timeout = 0) {
   }, [])
 
   useEffect(() => {
-    if (!isNumber(timeout) || timeout < 0) {
-      throw new TypeError('timeout must be a number greater than 0')
-    }
-    timerRef.current = setTimeout(fnRef.current, timeout)
+    if (timerRef.current) return
+    if (!isNumber(delay) || delay < 0) return
+    timerRef.current = setTimeout(fnRef.current, delay)
     return clear
-  }, [clear, timeout])
+  }, [clear, delay])
 
-  return clear
+  return { clear }
 }
