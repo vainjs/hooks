@@ -24,6 +24,11 @@ export default defineConfig([
   reactRefresh.configs.recommended,
   prettierRecommended,
   {
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
     rules: {
       '@typescript-eslint/consistent-type-imports': 'error',
       'react/react-in-jsx-scope': 'off',

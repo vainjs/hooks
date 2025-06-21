@@ -1,17 +1,16 @@
 import { useEffect, useRef, useCallback } from 'react'
 import { isNumber } from '@vainjs/ore'
 
-interface IntervalOptions {
+export type IntervalOptions = {
   immediate?: boolean
 }
 
 export function useInterval(
   fn: () => void,
-  timeout = 0,
+  delay: number,
   options: IntervalOptions = {}
 ) {
   const timerRef = useRef<NodeJS.Timeout | null>(null)
-  const optionsRef = useRef(options)
   const fnRef = useRef(fn)
 
   const clear = useCallback(() => {
@@ -21,16 +20,20 @@ export function useInterval(
     }
   }, [])
 
-  useEffect(() => {
-    if (!isNumber(timeout) || timeout < 0) {
-      throw new TypeError('timeout must be a number greater than 0')
-    }
-    if (optionsRef.current.immediate) {
+  const resume = useCallback(() => {
+    if (timerRef.current) return
+    if (!isNumber(delay) || delay < 0) return
+
+    if (options.immediate) {
       fnRef.current()
     }
-    timerRef.current = setInterval(fnRef.current, timeout)
-    return clear
-  }, [clear, timeout])
+    timerRef.current = setInterval(fnRef.current, delay)
+  }, [delay, options.immediate])
 
-  return clear
+  useEffect(() => {
+    resume()
+    return clear
+  }, [clear, resume])
+
+  return { clear, resume }
 }
