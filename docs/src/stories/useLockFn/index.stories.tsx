@@ -5,7 +5,7 @@ import { UseLockFn } from './index'
  * 给异步函数加锁，防止并发执行。
  */
 const meta = {
-  title: 'Async/useLockFn',
+  title: 'Utils/useLockFn',
   component: UseLockFn,
   parameters: {
     layout: 'centered',
@@ -22,13 +22,13 @@ const meta = {
       },
     },
     options: {
-      description: '配置项',
+      description: '配置项，可以设置解锁时机',
       control: 'object',
       table: {
         type: {
           summary: '{ timing?: "catch" | "finally" }',
         },
-        defaultValue: { summary: '{ timing: "catch" }' },
+        defaultValue: { summary: '{ timing: "finally" }' },
       },
     },
   },
@@ -37,4 +37,16 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Basic: Story = {}
+export const Finally: Story = {
+  name: 'finally 时解锁',
+  args: {
+    options: { timing: 'finally' },
+  },
+}
+
+export const Catch: Story = {
+  name: 'catch 时解锁',
+  args: {
+    options: { timing: 'catch' },
+  },
+}

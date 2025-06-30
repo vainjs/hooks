@@ -8,9 +8,9 @@ type Options = {
   timing?: 'catch' | 'finally'
 }
 
-export function useLockFn<P extends any[] = any[], R = any>(
+export function useLockFn<P extends unknown[] = unknown[], R = unknown>(
   fn: (...args: P) => Promise<R>,
-  options: Options = { timing: 'catch' }
+  options: Options = { timing: 'finally' }
 ) {
   const optionsRef = useRef(options)
   const isLockedRef = useRef(false)
