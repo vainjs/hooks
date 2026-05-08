@@ -1,0 +1,47 @@
+{
+  "name": "@vainjs/monorepo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "preinstall": "npx only-allow pnpm",
+    "prepare": "husky",
+    "start": "turbo run storybook --filter=docs",
+    "test": "turbo test"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js}": [
+      "eslint --fix"
+    ],
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@eslint/js": "^9.27.0",
+    "@vainjs/eslint-config": "latest",
+    "eslint": "^9.32.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.1",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.2.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.4",
+    "prettier": "^3.6.2",
+    "turbo": "^2.5.3",
+    "typescript": "^5.3.3",
+    "typescript-eslint": "^8.33.0"
+  },
+  "packageManager": "pnpm@10.0.0"
+}

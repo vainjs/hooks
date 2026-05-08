@@ -1,0 +1,20 @@
+import { isPrimitive } from '../..'
+
+describe('isPrimitive', () => {
+  it('should return true for primitives', () => {
+    expect(isPrimitive(null)).toBe(true)
+    expect(isPrimitive(undefined)).toBe(true)
+    expect(isPrimitive(true)).toBe(true)
+    expect(isPrimitive(123)).toBe(true)
+    expect(isPrimitive('test')).toBe(true)
+    expect(isPrimitive(Symbol('test'))).toBe(true)
+    expect(isPrimitive(1n)).toBe(true)
+  })
+
+  it('should return false for non-primitives', () => {
+    expect(isPrimitive({})).toBe(false)
+    expect(isPrimitive([])).toBe(false)
+    expect(isPrimitive(() => {})).toBe(false)
+    expect(isPrimitive(new Date())).toBe(false)
+  })
+})

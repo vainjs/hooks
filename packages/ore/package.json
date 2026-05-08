@@ -1,0 +1,121 @@
+{
+  "name": "@vainjs/ore",
+  "version": "0.0.2",
+  "description": "",
+  "types": "dist/es/types/index.d.ts",
+  "module": "dist/es/index.mjs",
+  "main": "dist/cjs/index.cjs",
+  "unpkg": "dist/umd/ore.js",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/es/types/index.d.ts",
+      "import": {
+        "node": "./dist/cjs/index.cjs",
+        "default": "./dist/es/index.mjs"
+      },
+      "require": "./dist/cjs/index.cjs"
+    },
+    "./array": {
+      "types": "./dist/es/types/array.d.ts",
+      "import": {
+        "node": "./dist/cjs/array.cjs",
+        "default": "./dist/es/array.mjs"
+      },
+      "require": "./dist/cjs/array.cjs"
+    },
+    "./async": {
+      "types": "./dist/es/types/async.d.ts",
+      "import": {
+        "node": "./dist/cjs/async.cjs",
+        "default": "./dist/es/async.mjs"
+      },
+      "require": "./dist/cjs/async.cjs"
+    },
+    "./collection": {
+      "types": "./dist/es/types/collection.d.ts",
+      "import": {
+        "node": "./dist/cjs/collection.cjs",
+        "default": "./dist/es/collection.mjs"
+      },
+      "require": "./dist/cjs/collection.cjs"
+    },
+    "./control": {
+      "types": "./dist/es/types/control.d.ts",
+      "import": {
+        "node": "./dist/cjs/control.cjs",
+        "default": "./dist/es/control.mjs"
+      },
+      "require": "./dist/cjs/control.cjs"
+    },
+    "./object": {
+      "types": "./dist/es/types/object.d.ts",
+      "import": {
+        "node": "./dist/cjs/object.cjs",
+        "default": "./dist/es/object.mjs"
+      },
+      "require": "./dist/cjs/object.cjs"
+    },
+    "./string": {
+      "types": "./dist/es/types/string.d.ts",
+      "import": {
+        "node": "./dist/cjs/string.cjs",
+        "default": "./dist/es/string.mjs"
+      },
+      "require": "./dist/cjs/string.cjs"
+    },
+    "./typed": {
+      "types": "./dist/es/types/typed.d.ts",
+      "import": {
+        "node": "./dist/cjs/typed.cjs",
+        "default": "./dist/es/typed.mjs"
+      },
+      "require": "./dist/cjs/typed.cjs"
+    }
+  },
+  "scripts": {
+    "dev": "rollup -wc --environment NODE_ENV:development",
+    "build": "rollup -c --environment NODE_ENV:production",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "files": [
+    "dist",
+    "package.json",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=16.0.0",
+    "pnpm": ">=8.10.5"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "url": "https://github.com/vainjs/ore"
+  },
+  "authors": "young",
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.0",
+    "@commitlint/config-conventional": "^17.6.0",
+    "@rollup/plugin-terser": "^0.4.3",
+    "@rollup/plugin-typescript": "^11.1.0",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^22.1.0",
+    "@typescript-eslint/eslint-plugin": "^6.5.0",
+    "@typescript-eslint/parser": "^6.5.0",
+    "eslint": "^8.48.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "husky": "^8.0.3",
+    "jest": "^29.7.0",
+    "lint-staged": "^13.2.1",
+    "prettier": "^3.0.3",
+    "rollup": "^3.21.0",
+    "rollup-plugin-clear": "^2.0.7",
+    "ts-jest": "^29.2.3"
+  }
+}

@@ -1,0 +1,39 @@
+name: Test CI
+
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "packages/**"
+
+  pull_request:
+    branches:
+      - "main"
+    paths:
+      - "packages/**"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 23
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 10
+
+      - name: Install dependencies
+        run: |
+          pnpm install
+
+      - name: Run test
+        run: |
+          pnpm test

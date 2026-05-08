@@ -1,0 +1,46 @@
+import { isEqual } from '../..'
+
+describe('isEqual', () => {
+  it('should return true for equal values', () => {
+    expect(isEqual(1, 1)).toBe(true)
+    expect(isEqual(NaN, NaN)).toBe(true)
+    expect(isEqual('abc', 'abc')).toBe(true)
+    expect(isEqual(true, true)).toBe(true)
+    expect(isEqual(null, null)).toBe(true)
+    expect(isEqual(undefined, undefined)).toBe(true)
+    expect(isEqual(1n, 1n)).toBe(true)
+    expect(isEqual({ a: 1 }, { a: 1 })).toBe(true)
+    expect(isEqual({ a: { b: 1 } }, { a: { b: 1 } })).toBe(true)
+    expect(isEqual([1, 2, 3], [1, 2, 3])).toBe(true)
+    expect(isEqual(new Date(2021, 0, 1), new Date(2021, 0, 1))).toBe(true)
+    expect(isEqual(/abc/, /abc/)).toBe(true)
+    expect(isEqual(new Map([['k', 'v']]), new Map([['k', 'v']]))).toBe(true)
+    expect(isEqual(new Set([1]), new Set([1]))).toBe(true)
+    expect(isEqual(Object.create(null), Object.create(null))).toBe(true)
+  })
+
+  it('should return false for unequal values', () => {
+    expect(isEqual(1, 2)).toBe(false)
+    expect(isEqual('abc', 'abcd')).toBe(false)
+    expect(isEqual(true, false)).toBe(false)
+    expect(isEqual(null, undefined)).toBe(false)
+    expect(isEqual(1n, 2n)).toBe(false)
+    expect(isEqual({ a: 1 }, { a: 2 })).toBe(false)
+    expect(isEqual({ a: { b: 1 } }, { a: { b: 2 } })).toBe(false)
+    expect(isEqual([1, 2, 3], [1, 2, 4])).toBe(false)
+    expect(isEqual([1, 2, 3], [1, 3, 2])).toBe(false)
+    expect(isEqual(new Date(2021, 0, 1), new Date(2021, 1, 1))).toBe(false)
+    expect(isEqual(/abc/, /def/)).toBe(false)
+    expect(isEqual(Symbol('a'), Symbol('a'))).toBe(false)
+    expect(isEqual(new Map([['k', 'v']]), new Map([['k', 'v2']]))).toBe(false)
+    expect(isEqual(new Map(), new Map([['k', 'v']]))).toBe(false)
+    expect(isEqual(() => {}, () => {})).toBe(false)
+  })
+
+  it('should handle special cases', () => {
+    expect(isEqual(+0, -0)).toBe(false)
+    expect(isEqual(new Number(1), new Number(1))).toBe(true)
+    expect(isEqual(new Number(1), new Number('1'))).toBe(true)
+    expect(isEqual(new Boolean('abc'), new Boolean('abc'))).toBe(true)
+  })
+})
